@@ -1,8 +1,8 @@
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar">
             <div class="sidebar-header">
-                <a href="#" class="sidebar-brand">
-                    Noble<span>UI</span>
+                <a href="{{ route('backend.dashboard') }}" class="sidebar-brand">
+                    Pandora<span>GOC</span>
                 </a>
                 <div class="sidebar-toggler not-active">
                     <span></span>
@@ -14,9 +14,96 @@
                 <ul class="nav">
                     <li class="nav-item nav-category">Main</li>
                     <li class="nav-item">
-                        <a href="dashboard.html" class="nav-link">
+                        <a href="{{ route('backend.dashboard') }}" class="nav-link">
                             <i class="link-icon" data-feather="box"></i>
                             <span class="link-title">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#users" role="button"
+                            aria-expanded="false" aria-controls="users">
+                            <i class="link-icon" data-feather="users"></i>
+                            <span class="link-title">Users</span>
+                            <i class="link-arrow" data-feather="chevron-down"></i>
+                        </a>
+                        <div class="collapse" id="users">
+                            <ul class="nav sub-menu">
+                                <li class="nav-item">
+                                    <a href="{{ route('backend.user-view') }}" class="nav-link">All Users</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('backend.user-create') }}" class="nav-link">Add New</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#role" role="button"
+                            aria-expanded="false" aria-controls="role">
+                            <i class="link-icon" data-feather="feather"></i>
+                            <span class="link-title">Role</span>
+                            <i class="link-arrow" data-feather="chevron-down"></i>
+                        </a>
+                        <div class="collapse" id="role">
+                            <ul class="nav sub-menu">
+                                <li class="nav-item">
+                                    <a href="{{ route('backend.role-view') }}" class="nav-link">Roles</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('backend.role-create') }}" class="nav-link">Add New</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#permission" role="button"
+                            aria-expanded="false" aria-controls="permission">
+                            <i class="link-icon" data-feather="layers"></i>
+                            <span class="link-title">Permission</span>
+                            <i class="link-arrow" data-feather="chevron-down"></i>
+                        </a>
+                        <div class="collapse" id="permission">
+                            <ul class="nav sub-menu">
+                                <li class="nav-item">
+                                    <a href="{{ route('backend.permission-view') }}" class="nav-link">Permissions</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('backend.permission-create') }}" class="nav-link">Add New</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#calendar" role="button"
+                            aria-expanded="false" aria-controls="calendar">
+                            <i class="link-icon" data-feather="calendar"></i>
+                            <span class="link-title">Calendar</span>
+                            <i class="link-arrow" data-feather="chevron-down"></i>
+                        </a>
+                        <div class="collapse" id="calendar">
+                            <ul class="nav sub-menu">
+                                <li class="nav-item">
+                                    <a href="{{ route('backend.calendar-index') }}" class="nav-link">Dates</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('backend.calendar-create') }}" class="nav-link">Add New</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('backend.calendar-public_holiday_index') }}" class="nav-link">Public Holidays</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('backend.attendance-view', Auth::user()->id) }}" class="nav-link">
+                            <i class="link-icon" data-feather="server"></i>
+                            <span class="link-title">Attendance</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('backend.attendance-view_reports')}}" class="nav-link">
+                            <i class="link-icon" data-feather="server"></i>
+                            <span class="link-title">Reports</span>
                         </a>
                     </li>
                     <li class="nav-item nav-category">web apps</li>

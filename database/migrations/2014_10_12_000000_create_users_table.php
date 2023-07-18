@@ -17,12 +17,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string("alias_name");
-            $table->string("slug")->unique();
-            $table->string("avatar")->nullable();
-            $table->string("gender")->nullable();
-            $table->boolean("status")->default(true);
-            $table->string('google2fa_secret')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

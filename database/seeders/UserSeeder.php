@@ -21,6 +21,10 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
             'alias_name' => 'Ray',
             'slug' => 'ray',
+            'role_id' => 1,
+            "designation" => "supervisor",
+            "employment_type" => "full-time"
         ]);
+        User::factory(25)->create();
     }
 }

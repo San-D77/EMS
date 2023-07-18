@@ -24,6 +24,7 @@
                     <div class="col-12 col-lg-12">
                         <div class="d-grid">
                             <button type="submit" class="btn btn-dark">Validate</button>
+                            <a href="{{ route('2fa-enable', 'forgot') }}" style="color: blue;">Click here to re-scan</a>
                         </div>
                     </div>
                 </form>

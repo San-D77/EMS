@@ -40,8 +40,9 @@ class AuthController extends Controller
 
     protected function enableTwoFactor(Request $request)
     {
+
         $user = auth()->user();
-        if (!$user->google2fa_secret) {
+        if (!$user->google2fa_secret || $request->forgot ) {
             $google2fa = new Google2FA();
 
             $secret = $google2fa->generateSecretKey();
