@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\AttendanceController;
 use App\Http\Controllers\Backend\CalendarController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\LeaveController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
@@ -80,6 +81,12 @@ Route::group(['prefix' => 'attendance', 'as' => 'attendance-'], function(){
 
     Route::get('/view-report/{user}', [AttendanceController::class, 'view'] )->name('view'  );
     Route::post('/generate-report/{user}', [AttendanceController::class,'generate_report'])->name('generate_report');
+
+    Route::get('/today', [AttendanceController::class, 'today'])->name('today');
+
+    Route::get('/individual-report/{user}/{date?}', [AttendanceController::class, 'individual_report'])->name('individual_report');
+    Route::post('/individual-report/{user}/{date?}', [AttendanceController::class, 'individual_report_json'])->name('individual_report_json');
+
 });
 
 /*
@@ -96,4 +103,19 @@ Route::group(['prefix' => 'calendar', 'as' => 'calendar-'], function(){
 
     Route::get('/public-holidays', [CalendarController::class, 'public_holiday_index'])->name('public_holiday_index');
 
+});
+
+/*
+    ============================================================================
+                Leave Routes
+    ============================================================================
+*/
+Route::group(['prefix' => 'leave', 'as' => 'leave-'], function(){
+    Route::get('/apply/{user}', [LeaveController::class, 'create'])->name('create');
+    Route::post('/apply/{user}', [LeaveController::class,'store'])->name('store');
+    Route::get('/approvals', [LeaveController::class, 'index'])->name('index');
+    Route::post('/approve/{leave}', [LeaveController::class, 'approve'])->name('approve');
+    Route::post('/reject/{leave}', [LeaveController::class, 'reject'])->name('reject');
+
+    Route::get('/individual/{user}', [LeaveController::class, 'individual'])->name('individual');
 });

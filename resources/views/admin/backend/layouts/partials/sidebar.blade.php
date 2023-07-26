@@ -96,15 +96,42 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('backend.attendance-view', Auth::user()->id) }}" class="nav-link">
-                            <i class="link-icon" data-feather="server"></i>
+                            <i class="link-icon" data-feather="clipboard"></i>
                             <span class="link-title">Attendance</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('backend.attendance-view_reports')}}" class="nav-link">
-                            <i class="link-icon" data-feather="server"></i>
+                            <i class="link-icon" data-feather="book-open"></i>
                             <span class="link-title">Reports</span>
                         </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('backend.attendance-today') }}" class="nav-link">
+                            <i class="link-icon" data-feather="loader"></i>
+                            <span class="link-title">Today</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#leave" role="button"
+                            aria-expanded="false" aria-controls="leave">
+                            <i class="link-icon" data-feather="inbox"></i>
+                            <span class="link-title">Leave</span>
+                            <i class="link-arrow" data-feather="chevron-down"></i>
+                        </a>
+                        <div class="collapse" id="leave">
+                            <ul class="nav sub-menu">
+                                <li class="nav-item">
+                                    <a href="{{ route('backend.leave-index') }}" class="nav-link">Approvals</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('backend.leave-create', Auth::user()->id) }}" class="nav-link">Apply for Leave</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('backend.leave-individual', Auth::user()->id) }}" class="nav-link">Your Leaves</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item nav-category">web apps</li>
                     <li class="nav-item">

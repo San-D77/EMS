@@ -21,19 +21,20 @@ class AttendanceFactory extends Factory
     {
         $faker = Faker::create();
 
-        $today = now();
-
-        $userIds = User::pluck('id')->shuffle()->toArray();
 
 
 
         return [
-            'user_id' => function () use ($userIds) {
-                // Pop a user ID from the shuffled array to ensure uniqueness
+            'user_id' => function(){
+                $today = now();
+
+                $attendances = Attendance::all();
+
+                $userIds = User::whereNotIn('id',$attendances->pluck('user_id'))->pluck('id')->toArray();
                 return array_pop($userIds);
             },
             'day' => toBikramSambatDate(now()),
-            'session_start' => $faker->time,
+            'session_start' => str_pad( random_int(9,11), 2, '0', STR_PAD_LEFT)  .':'.str_pad( random_int(0,59), 2, '0', STR_PAD_LEFT).':'.str_pad( random_int(0,59), 2, '0', STR_PAD_LEFT),
             'location' => $faker->city
         ];
     }
