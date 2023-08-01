@@ -7,6 +7,7 @@ use App\Http\Requests\Backend\LeaveRequest;
 use App\Models\Backend\Leave;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Pusher\Pusher;
 
 class LeaveController extends Controller
 {
@@ -28,23 +29,45 @@ class LeaveController extends Controller
             $final_array['last_day'] = $request['last_day'];
         }
         Leave::create($final_array);
+
+        // Trigger real-time notification to the admin
+        $data = [
+            'message' => 'New leave request from ' . auth()->user()->name
+        ];
+
+        $options = [
+            'cluster' => env('PUSHER_APP_CLUSTER'),
+            'useTLS' => true
+        ];
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+        );
+
+        $pusher->trigger('notification-channel', 'new-leave-request', $data);
+
         return redirect()->route('backend.dashboard');
     }
 
-    public function index(){
-        return view('admin.backend.pages.leave.index',[
-            'pending_leaves' => Leave::where('status','pending')->with('user')->get()
+    public function index()
+    {
+        return view('admin.backend.pages.leave.index', [
+            'pending_leaves' => Leave::where('status', 'pending')->with('user')->get()
         ]);
-
     }
 
-    public function approve(Leave $leave){
+    public function approve(Leave $leave)
+    {
         $leave->update([
             'status' => "approved"
         ]);
         return back();
     }
-    public function reject(Leave $leave){
+    public function reject(Leave $leave)
+    {
 
         $leave->update([
             'status' => "rejected",
@@ -53,7 +76,8 @@ class LeaveController extends Controller
         return back();
     }
 
-    public function individual(User $user){
+    public function individual(User $user)
+    {
         return view('admin.backend.pages.leave.individual', [
             "leaves" => Leave::where('user_id', $user->id)->get()
         ]);

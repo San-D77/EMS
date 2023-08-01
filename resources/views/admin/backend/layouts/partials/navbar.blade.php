@@ -19,209 +19,15 @@
             </li>
             @if (!$submitted)
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ isset($start_time) ? route('backend.attendance-terminate_session', Auth::user()->id)  : route('backend.attendance-register_attendance', Auth::user()->id) }}" role="button">
-                        <i style="{{ isset($start_time)? 'color:red;': 'color:green;'}}" data-feather="{{ isset($start_time) ? 'stop-circle' : 'play-circle' }}"></i>
+                    <a class="nav-link"
+                        href="{{ isset($start_time) ? route('backend.attendance-terminate_session', Auth::user()->id) : route('backend.attendance-register_attendance', Auth::user()->id) }}"
+                        role="button">
+                        <i style="{{ isset($start_time) ? 'color:red;' : 'color:green;' }}"
+                            data-feather="{{ isset($start_time) ? 'stop-circle' : 'play-circle' }}"></i>
                     </a>
                 </li>
             @endif
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="appsDropdown" role="button"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i data-feather="grid"></i>
-                </a>
-                <div class="dropdown-menu p-0" aria-labelledby="appsDropdown">
-                    <div class="px-3 py-2 d-flex align-items-center justify-content-between border-bottom">
-                        <p class="mb-0 fw-bold">Web Apps</p>
-                        <a href="javascript:;" class="text-muted">Edit</a>
-                    </div>
-                    <div class="row g-0 p-1">
-                        <div class="col-3 text-center">
-                            <a href="pages/apps/chat.html"
-                                class="dropdown-item d-flex flex-column align-items-center justify-content-center wd-70 ht-70"><i
-                                    data-feather="message-square" class="icon-lg mb-1"></i>
-                                <p class="tx-12">Chat</p>
-                            </a>
-                        </div>
-                        <div class="col-3 text-center">
-                            <a href="pages/apps/calendar.html"
-                                class="dropdown-item d-flex flex-column align-items-center justify-content-center wd-70 ht-70"><i
-                                    data-feather="calendar" class="icon-lg mb-1"></i>
-                                <p class="tx-12">Calendar</p>
-                            </a>
-                        </div>
-                        <div class="col-3 text-center">
-                            <a href="pages/email/inbox.html"
-                                class="dropdown-item d-flex flex-column align-items-center justify-content-center wd-70 ht-70"><i
-                                    data-feather="mail" class="icon-lg mb-1"></i>
-                                <p class="tx-12">Email</p>
-                            </a>
-                        </div>
-                        <div class="col-3 text-center">
-                            <a href="pages/general/profile.html"
-                                class="dropdown-item d-flex flex-column align-items-center justify-content-center wd-70 ht-70"><i
-                                    data-feather="instagram" class="icon-lg mb-1"></i>
-                                <p class="tx-12">Profile</p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="px-3 py-2 d-flex align-items-center justify-content-center border-top">
-                        <a href="javascript:;">View all</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i data-feather="mail"></i>
-                </a>
-                <div class="dropdown-menu p-0" aria-labelledby="messageDropdown">
-                    <div class="px-3 py-2 d-flex align-items-center justify-content-between border-bottom">
-                        <p>9 New Messages</p>
-                        <a href="javascript:;" class="text-muted">Clear all</a>
-                    </div>
-                    <div class="p-1">
-                        <a href="javascript:;" class="dropdown-item d-flex align-items-center py-2">
-                            <div class="me-3">
-                                <img class="wd-30 ht-30 rounded-circle" src="https://via.placeholder.com/30x30"
-                                    alt="userr">
-                            </div>
-                            <div class="d-flex justify-content-between flex-grow-1">
-                                <div class="me-4">
-                                    <p>Leonardo Payne</p>
-                                    <p class="tx-12 text-muted">Project status</p>
-                                </div>
-                                <p class="tx-12 text-muted">2 min ago</p>
-                            </div>
-                        </a>
-                        <a href="javascript:;" class="dropdown-item d-flex align-items-center py-2">
-                            <div class="me-3">
-                                <img class="wd-30 ht-30 rounded-circle" src="https://via.placeholder.com/30x30"
-                                    alt="userr">
-                            </div>
-                            <div class="d-flex justify-content-between flex-grow-1">
-                                <div class="me-4">
-                                    <p>Carl Henson</p>
-                                    <p class="tx-12 text-muted">Client meeting</p>
-                                </div>
-                                <p class="tx-12 text-muted">30 min ago</p>
-                            </div>
-                        </a>
-                        <a href="javascript:;" class="dropdown-item d-flex align-items-center py-2">
-                            <div class="me-3">
-                                <img class="wd-30 ht-30 rounded-circle" src="https://via.placeholder.com/30x30"
-                                    alt="userr">
-                            </div>
-                            <div class="d-flex justify-content-between flex-grow-1">
-                                <div class="me-4">
-                                    <p>Jensen Combs</p>
-                                    <p class="tx-12 text-muted">Project updates</p>
-                                </div>
-                                <p class="tx-12 text-muted">1 hrs ago</p>
-                            </div>
-                        </a>
-                        <a href="javascript:;" class="dropdown-item d-flex align-items-center py-2">
-                            <div class="me-3">
-                                <img class="wd-30 ht-30 rounded-circle" src="https://via.placeholder.com/30x30"
-                                    alt="userr">
-                            </div>
-                            <div class="d-flex justify-content-between flex-grow-1">
-                                <div class="me-4">
-                                    <p>{{ Auth::user()->name }}</p>
-                                    <p class="tx-12 text-muted">Project deatline</p>
-                                </div>
-                                <p class="tx-12 text-muted">2 hrs ago</p>
-                            </div>
-                        </a>
-                        <a href="javascript:;" class="dropdown-item d-flex align-items-center py-2">
-                            <div class="me-3">
-                                <img class="wd-30 ht-30 rounded-circle" src="https://via.placeholder.com/30x30"
-                                    alt="userr">
-                            </div>
-                            <div class="d-flex justify-content-between flex-grow-1">
-                                <div class="me-4">
-                                    <p>Yaretzi Mayo</p>
-                                    <p class="tx-12 text-muted">New record</p>
-                                </div>
-                                <p class="tx-12 text-muted">5 hrs ago</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="px-3 py-2 d-flex align-items-center justify-content-center border-top">
-                        <a href="javascript:;">View all</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i data-feather="bell"></i>
-                    <div class="indicator">
-                        <div class="circle"></div>
-                    </div>
-                </a>
-                <div class="dropdown-menu p-0" aria-labelledby="notificationDropdown">
-                    <div class="px-3 py-2 d-flex align-items-center justify-content-between border-bottom">
-                        <p>6 New Notifications</p>
-                        <a href="javascript:;" class="text-muted">Clear all</a>
-                    </div>
-                    <div class="p-1">
-                        <a href="javascript:;" class="dropdown-item d-flex align-items-center py-2">
-                            <div
-                                class="wd-30 ht-30 d-flex align-items-center justify-content-center bg-primary rounded-circle me-3">
-                                <i class="icon-sm text-white" data-feather="gift"></i>
-                            </div>
-                            <div class="flex-grow-1 me-2">
-                                <p>New Order Recieved</p>
-                                <p class="tx-12 text-muted">30 min ago</p>
-                            </div>
-                        </a>
-                        <a href="javascript:;" class="dropdown-item d-flex align-items-center py-2">
-                            <div
-                                class="wd-30 ht-30 d-flex align-items-center justify-content-center bg-primary rounded-circle me-3">
-                                <i class="icon-sm text-white" data-feather="alert-circle"></i>
-                            </div>
-                            <div class="flex-grow-1 me-2">
-                                <p>Server Limit Reached!</p>
-                                <p class="tx-12 text-muted">1 hrs ago</p>
-                            </div>
-                        </a>
-                        <a href="javascript:;" class="dropdown-item d-flex align-items-center py-2">
-                            <div
-                                class="wd-30 ht-30 d-flex align-items-center justify-content-center bg-primary rounded-circle me-3">
-                                <img class="wd-30 ht-30 rounded-circle" src="https://via.placeholder.com/30x30"
-                                    alt="userr">
-                            </div>
-                            <div class="flex-grow-1 me-2">
-                                <p>New customer registered</p>
-                                <p class="tx-12 text-muted">2 sec ago</p>
-                            </div>
-                        </a>
-                        <a href="javascript:;" class="dropdown-item d-flex align-items-center py-2">
-                            <div
-                                class="wd-30 ht-30 d-flex align-items-center justify-content-center bg-primary rounded-circle me-3">
-                                <i class="icon-sm text-white" data-feather="layers"></i>
-                            </div>
-                            <div class="flex-grow-1 me-2">
-                                <p>Apps are ready for update</p>
-                                <p class="tx-12 text-muted">5 hrs ago</p>
-                            </div>
-                        </a>
-                        <a href="javascript:;" class="dropdown-item d-flex align-items-center py-2">
-                            <div
-                                class="wd-30 ht-30 d-flex align-items-center justify-content-center bg-primary rounded-circle me-3">
-                                <i class="icon-sm text-white" data-feather="download"></i>
-                            </div>
-                            <div class="flex-grow-1 me-2">
-                                <p>Download completed</p>
-                                <p class="tx-12 text-muted">6 hrs ago</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="px-3 py-2 d-flex align-items-center justify-content-center border-top">
-                        <a href="javascript:;">View all</a>
-                    </div>
-                </div>
-            </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -240,7 +46,8 @@
                     </div>
                     <ul class="list-unstyled p-1">
                         <li class="dropdown-item py-2">
-                            <a href="{{ route('backend.user-update_profile', Auth::user()->id) }}" class="text-body ms-0">
+                            <a href="{{ route('backend.user-update_profile', Auth::user()->id) }}"
+                                class="text-body ms-0">
                                 <i class="me-2 icon-md" data-feather="user"></i>
                                 <span>Profile</span>
                             </a>
@@ -271,46 +78,44 @@
 </nav>
 <!-- partial -->
 @push('scripts')
-<script>
+    <script>
+        function calculateTimeDifference(previousTime) {
+            var currentTime = new Date();
+            var previousDateTime = new Date(currentTime.toDateString() + ' ' + previousTime);
 
-    function calculateTimeDifference(previousTime) {
-        var currentTime = new Date();
-        var previousDateTime = new Date(currentTime.toDateString() + ' ' + previousTime);
+            var timeDifference = Math.abs(currentTime - previousDateTime);
+            var hours = Math.floor(timeDifference / 3600000); // 1 hour = 3600000 milliseconds
+            var minutes = Math.floor((timeDifference % 3600000) / 60000); // 1 minute = 60000 milliseconds
+            var seconds = Math.floor((timeDifference % 60000) / 1000); // 1 second = 1000 milliseconds
 
-        var timeDifference = Math.abs(currentTime - previousDateTime);
-        var hours = Math.floor(timeDifference / 3600000); // 1 hour = 3600000 milliseconds
-        var minutes = Math.floor((timeDifference % 3600000) / 60000); // 1 minute = 60000 milliseconds
-        var seconds = Math.floor((timeDifference % 60000) / 1000); // 1 second = 1000 milliseconds
+            return {
+                hours: hours,
+                minutes: minutes,
+                seconds: seconds
+            };
+        }
 
-        return {
-            hours: hours,
-            minutes: minutes,
-            seconds: seconds
-        };
-    }
-
-    function updateTimer(previousTime) {
-        var timerElement = document.getElementById('session-duration');
-        var timeDifference = calculateTimeDifference(previousTime);
-        var hours = timeDifference.hours.toString().padStart(2, '0');
-        var minutes = timeDifference.minutes.toString().padStart(2, '0');
-        var seconds = timeDifference.seconds.toString().padStart(2, '0');
-
-        timerElement.textContent = hours + ':' + minutes + ':' + seconds;
-
-        setInterval(function() {
+        function updateTimer(previousTime) {
+            var timerElement = document.getElementById('session-duration');
             var timeDifference = calculateTimeDifference(previousTime);
             var hours = timeDifference.hours.toString().padStart(2, '0');
             var minutes = timeDifference.minutes.toString().padStart(2, '0');
             var seconds = timeDifference.seconds.toString().padStart(2, '0');
 
             timerElement.textContent = hours + ':' + minutes + ':' + seconds;
-        }, 1000);
-    }
 
-    // Usage: Call the updateTimer function passing the previous time string (e.g., '2023-07-06 15:16:29')
-    const startTime =  @json($start_time );
-    startTime ? updateTimer(startTime):'';
+            setInterval(function() {
+                var timeDifference = calculateTimeDifference(previousTime);
+                var hours = timeDifference.hours.toString().padStart(2, '0');
+                var minutes = timeDifference.minutes.toString().padStart(2, '0');
+                var seconds = timeDifference.seconds.toString().padStart(2, '0');
 
-</script>
+                timerElement.textContent = hours + ':' + minutes + ':' + seconds;
+            }, 1000);
+        }
+
+        // Usage: Call the updateTimer function passing the previous time string (e.g., '2023-07-06 15:16:29')
+        const startTime = @json($start_time);
+        startTime ? updateTimer(startTime) : '';
+    </script>
 @endpush

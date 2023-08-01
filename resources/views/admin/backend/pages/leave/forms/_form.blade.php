@@ -47,7 +47,7 @@
                                 <input type="text"
                                     class="form-control {{ isset($errors) && $errors->has('first_day') ? 'is-invalid' : '' }} mb-2"
                                     name="date" {{ isset($date) ? $date->first_day : old('first_day') }}
-                                    id="first_day">
+                                    id="one_day">
                                 @if (isset($errors) && $errors->has('first_day'))
                                     <div class="invalid-feedback">
                                         {{ $errors->first('first_day') }}
@@ -89,10 +89,30 @@
             // Add more configuration options as needed
         });
 
+        flatpickr("#one_day", {
+            dateFormat: "Y-m-d",
+            defaultDate: '{{ isset($date->first_day) ? $date->first_day : 'today' }}',
+            minDate: "today"
+            // Add more configuration options as needed
+        });
+
         const fpSecondCalendar = flatpickr("#last_day", {
             dateFormat: "Y-m-d",
             defaultDate: '{{ isset($date->last_day) ? $date->last_day : 'today' }}',
+            minDate: "today"
             // Add more configuration options as needed
         });
+
+        if (fpFirstCalendar) {
+            fpFirstCalendar.config.onClose.push(() => {
+                const firstDate = fpFirstCalendar.selectedDates[0];
+                const minDate = new Date(firstDate.getTime() + 24 * 60 * 60 * 1000);
+                // Set the minimum date for the second calendar to be the selected date in the first calendar
+                fpSecondCalendar.set("minDate", minDate);
+
+            });
+
+        }
+
     </script>
 @endpush

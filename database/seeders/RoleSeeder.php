@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Backend\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class RoleSeeder extends Seeder
 {
@@ -13,20 +14,13 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create([
-            'title' => 'Superadmin',
-            'slug' => 'superadmin',
-            'status' => 1,
-        ]);
-        Role::create([
-            'title' => 'Admin',
-            'slug' => 'admin',
-            'status' => 1,
-        ]);
-        Role::create([
-            'title' => 'User',
-            'slug' => 'user',
-            'status' => 1,
-        ]);
+        $roles = ['Superadmin','Admin','Superviser','Maintainer','User'];
+        foreach($roles as $role){
+            Role::create([
+                'title' => $role,
+                'slug' => Str::slug($role),
+                'status' => 1,
+            ]);
+        }
     }
 }

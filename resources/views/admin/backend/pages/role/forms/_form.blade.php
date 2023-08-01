@@ -22,7 +22,7 @@
                             @endif
                         </div>
 
-                        <button type="submit" class="btn btn-success btn-block">
+                        <button type="submit" class="btn btn-success mx-3">
                             {{ isset($role) ? 'Update' : 'Save' }}
                         </button>
                     </div>

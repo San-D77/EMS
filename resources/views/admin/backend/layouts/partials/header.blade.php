@@ -47,6 +47,23 @@
 
     <link rel="shortcut icon" href="{{ asset('/assets/images/favicon.png') }}" />
     @stack('styles')
+
+    <style>
+        .notice-counter, .leave-counter {
+            vertical-align: 0px;
+            padding: 3px 10px;
+            margin-left: 5px;
+            text-align: center;
+            background: #fa5661;
+            font-size: 11px;
+            font-family: monospace;
+            color: #fff;
+            text-shadow: 1px 1px #bf3039;
+            border-radius: 10px;
+            top: -1px;
+            position: relative;
+        }
+    </style>
 </head>
 
 <body>

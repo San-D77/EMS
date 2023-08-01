@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Models\Backend\Attendance;
 use App\Models\Backend\Leave;
 use App\Models\Backend\Permission;
+use App\Models\Backend\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -46,6 +47,10 @@ class User extends Authenticatable
     public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'user_permissions', 'user_id','permission_id');
+    }
+
+    public function role(){
+        return $this->belongsTo(Role::class);
     }
 
     public function attendance(){

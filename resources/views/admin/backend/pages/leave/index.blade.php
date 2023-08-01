@@ -1,5 +1,6 @@
 @extends('admin.backend.layouts.index')
 @section('content')
+
     <table class="table table-striped">
         <thead>
             <th>S.N.</th>
@@ -10,6 +11,7 @@
         </thead>
         <tbody class="report-data">
             @foreach ($pending_leaves as $single_leave)
+
                 <tr>
                     <td style="vertical-align: middle;">
                         {{ $loop->iteration }}
@@ -76,8 +78,10 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
+
                                                     <form action="{{ route('backend.leave-reject', $single_leave->id) }}"
                                                         method="post">
+
                                                         @csrf
                                                         <div class="modal-body"
                                                             style="white-space: normal; word-wrap: break-word;">

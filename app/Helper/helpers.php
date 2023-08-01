@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use App\Models\Backend\Calendar;
+use Pusher\Pusher;
 
 if (!function_exists('toGregorianDate')) {
     function toGregorianDate($year, $month, $day)
@@ -29,5 +30,23 @@ if (!function_exists('toBikramSambatDate')) {
         $diffInDays = \Carbon\Carbon::parse($first_day)->diffInDays(\Carbon\Carbon::parse($date));
         return ucfirst($month)." ". $diffInDays+1 .", ".$year;
 
+    }
+}
+
+if (!function_exists('pusherTemplate')) {
+    function pusherTemplate($channel, $event, $data){
+        $options = [
+            'cluster' => env('PUSHER_APP_CLUSTER'),
+            'useTLS' => true
+        ];
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+        );
+
+        $pusher->trigger($channel, $event, $data);
     }
 }
