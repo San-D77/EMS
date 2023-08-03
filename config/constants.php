@@ -295,5 +295,25 @@ return [
                 'superviser',
             ]
         ],
+    ],
+
+    "roles_to_check" => [
+        'backend.user-view',
+        'backend.user-create',
+        'backend.role-view',
+        'backend.role-create',
+        'backend.permission-view',
+        'backend.permission-create',
+        'backend.calendar-index',
+        'backend.calendar-create',
+        'backend.calendar-public_holiday_index',
+        'backend.leave-index',
+        'backend.leave-create',
+        'backend.leave-individual',
+        'backend.notice-create',
+        'backend.notice-view',
+        'backend.attendance-view',
+        'backend.attendance-view_reports',
+        'backend.attendance-today'
     ]
 ];

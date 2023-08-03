@@ -9,6 +9,10 @@ use App\Models\Backend\Role;
 use App\Models\Backend\UserPermission;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -35,8 +39,9 @@ class UserController extends Controller
             ->with('success', 'User created successfully.');
     }
 
-    public function edit(User $user){
-        return view('admin.backend.pages.users.crud',[
+    public function edit(User $user)
+    {
+        return view('admin.backend.pages.users.crud', [
             'user' => $user,
             'roles' => Role::all(),
             'permissions' => Permission::all(),
@@ -44,30 +49,104 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(UserRequest $request, User $user){
-        $userArray = ($request->password)? collect($request->validated())->toArray(): collect($request->validated())->except('password')->toArray();
+    public function update(UserRequest $request, User $user)
+    {
+        $userArray = ($request->password) ? collect($request->validated())->toArray() : collect($request->validated())->except('password')->toArray();
 
         $user->update($userArray);
         // Delete all the permissions associated with a specific user
         $user->permissions()->detach();
         $user->permissions()->sync($request->permissions);
         return redirect()
-                ->route('backend.user-view')->with('success', "User updated successfully");
+            ->route('backend.user-view')->with('success', "User updated successfully");
     }
 
-    public function update_status(User $user){
-        $change_status = $user->status == 1? 0 : 1;
+    public function update_status(User $user)
+    {
+        $change_status = $user->status == 1 ? 0 : 1;
         $user->update([
             'status' => $change_status
         ]);
-        return back()->with('success','Status changed successfully');
+        return back()->with('success', 'Status changed successfully');
     }
     public function update_profile()
     {
-        return view('admin.backend.pages.users.user_profile');
+
+        return view('admin.backend.pages.users.user_profile', [
+            'user' => Auth::user()
+        ]);
     }
 
-    public function user_permission(User $user){
+    public function upload_photo()
+    {
+        return  view('admin.backend.pages.users.upload_photo');
+    }
+
+    public function post_upload_photo(Request $request)
+    {
+
+
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the max file size as per your requirements
+        ]);
+
+        $uploadedImage = $request->file('avatar');
+
+        $imageName = time() . '_' . $uploadedImage->getClientOriginalName();
+
+
+
+        $path = 'avatars/full/';
+        $thumbnail_path = 'avatars/thumbnail/';
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+        if (!file_exists($thumbnail_path)) {
+            mkdir($thumbnail_path, 0777, true);
+        }
+
+
+        Image::make($uploadedImage)->save($path . $imageName);
+        Image::make($uploadedImage)->fit(200, 200, function ($constraint) {
+            $constraint->upsize();
+        }, 'top')->save(($thumbnail_path . $imageName));
+
+        $user = Auth::user();
+        $user->avatar = $imageName;
+        $user->save();
+
+        return redirect()->route('backend.user-update_profile');
+    }
+
+    public function update_password()
+    {
+        return view('admin.backend.pages.users.update_password');
+    }
+
+    public function post_update_password(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        // Check if the old password matches the user's current password
+        if (!Hash::check($request->old_password, $user->password)) {
+            return redirect()->back()->withErrors(['old_password' => 'Incorrect old password. Please try again.']);
+        }
+
+
+        // Update the user's password
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->route('backend.user-update_profile');
+    }
+
+    public function user_permission(User $user)
+    {
         return response()->json(User::find(request()->role_id)?->permissions);
     }
 }

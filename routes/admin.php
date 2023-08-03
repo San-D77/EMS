@@ -35,7 +35,12 @@ Route::group(['prefix' => 'user', "as" => "user-",'middleware' =>['roles']], fun
     Route::get("/delete/{user}", [UserController::class, "destroy"])->name("delete");
     Route::get("/status-update/{user}", [UserController::class, "update_status"])->name("update_status");
 
-    Route::get("/profile/{user}", [UserController::class, "update_profile"])->name("update_profile");
+    Route::get("/profile", [UserController::class, "update_profile"])->name("update_profile");
+    Route::get('/profile/upload-photo', [UserController::class, "upload_photo"])->name('upload_photo');
+    Route::post('/profile/upload-photo',[UserController::class, "post_upload_photo"])->name('post_upload_photo');
+
+    Route::get('/update-password', [UserController::class, "update_password"])->name('update_password');
+    Route::post('/update-password', [UserController::class, "post_update_password"])->name("post_update_password");
 
     Route::get('/user/permission/{user}', [UserController::class, "user_permission"])->name('user_permission');
 });
