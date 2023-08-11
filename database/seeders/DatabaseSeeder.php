@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             UserSeeder::class,
             CalendarSeeder::class,
-            AttendanceSeeder::class
+            // AttendanceSeeder::class
         ]);
 
     }
