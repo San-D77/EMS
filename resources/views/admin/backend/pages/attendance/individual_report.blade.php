@@ -71,6 +71,7 @@
             <th>Session End</th>
             <th>Stay Time</th>
             <th>Tasks</th>
+            <th>Action</th>
         </thead>
         <tbody class="report-data">
             @foreach ($reports as $single_report)
@@ -90,8 +91,55 @@
                                         ">
                         {{ $single_report->duration }}</td>
                     <td style="color:rgb(32, 7, 29);"
-                        class="{{ count(json_decode($single_report->task_report)) < (int) $single_report->user->standard_task ? 'less-task' : '' }}">
-                        {{ count(json_decode($single_report->task_report)) }}
+                        class="{{ $single_report->task_report ? (count(json_decode($single_report->task_report)) < (int) $single_report->user->standard_task ? 'less-task' : '') : '' }}">
+                        {{ $single_report->task_report ? count(json_decode($single_report->task_report)) : '' }}
+                    </td>
+                    <td>
+                        @if ($single_report->task_report)
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                                data-target="#viewReportModal{{ $loop->iteration }}">
+                                view
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="viewReportModal{{ $loop->iteration }}" tabindex="-1"
+                                role="dialog" aria-labelledby="viewReportModal{{ $loop->iteration }}CenterTitle"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="text-align: center;">
+                                            <h5 class="modal-title" id="viewReportModal{{ $loop->iteration }}LongTitle">
+                                                Your Tasks
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" style="white-space: normal; word-wrap: break-word;">
+                                            <div>
+                                                @if ($single_report->task_report)
+                                                    @foreach (json_decode($single_report->task_report) as $task)
+                                                        <div class="single-task">
+                                                            <span
+                                                                class="title">Title:</span><span>{{ $task->title }}</span>
+                                                            @if (isset($task->remarks))
+                                                                <span class="title">Remarks:</span><span class="remarks">
+                                                                    {{ $task->remarks }}</span>
+                                                            @endif
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </td>
                 </tr>
             @endforeach
@@ -165,14 +213,28 @@
                                 htm = '';
                                 d.forEach(single_report => {
                                     var dateObj = new Date(single_report['created_at']);
+                                    let task_deficit = ''
+                                    let time_deficit = ''
                                     const taskReportCount = single_report.task_report ? JSON.parse(single_report[
                                         'task_report']).length : 0;
 
                                     const date1 = new Date(`1970-01-01T${single_report['duration']}`);
-                                    const date2 = new Date(`1970-01-01T{{ $single_report->user->standard_time }}`)
+                                    const standard_time =
+                                        "{{ isset($single_report->user->standard_time) ? $single_report->user->standard_time : 'null' }}"
+                                    if (standard_time) {
+                                        const date2 = new Date(
+                                            `1970-01-01T{{ $single_report->user->standard_time }}`)
+                                            time_deficit = date1  < date2
+                                    }
 
                                     const task_count = JSON.parse(single_report['task_report']).length
-                                    const standard_task = {{ $single_report->user->standard_task }} <= task_count
+
+                                    const standard_task =
+                                        "{{ isset($single_report->user->standard_task) ? $single_report->user->standard_task : 'null' }}"
+                                    if (standard_task) {
+                                        task_deficit = task_count <= standard_task
+
+                                    }
 
                                     iteration++;
                                     htm += `
@@ -185,8 +247,58 @@
                             style="background: #ffe02f; padding: 5px 10px; border-radius: 4px; font-family: Courier New, monospace;">${ dateObj.toLocaleString('en-US', { weekday: 'short' }) }</span></td>
                                             <td>${ single_report['session_start']? single_report['session_start'] :'' }</td>
                                             <td>${ single_report['session_end']? single_report['session_end'] :'' }</td>
-                                            <td class="${(date1  < date2)? 'less-time' : ''}">${ single_report['duration']? single_report['duration'] :'' }</td>
-                                            <td class="${standard_task ? '' : 'less-task'}">${taskReportCount}</td>
+                                            <td class="${time_deficit? 'less-time' : ''}">${ single_report['duration']? single_report['duration'] :'' }</td>
+                                            <td class="${task_deficit? 'less-task'  : ''}">${taskReportCount}</td>
+                                            <td>`
+                                    if (single_report['task_report']) {
+
+
+                                        htm += `<button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                                                    data-target="#viewReportModal${iteration}">
+                                                    view
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="viewReportModal${iteration}" tabindex="-1"
+                                                    role="dialog" aria-labelledby="viewReportModal${iteration}CenterTitle"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header" style="text-align: center;">
+                                                                <h5 class="modal-title" id="viewReportModal${iteration}LongTitle">
+                                                                    Your Tasks
+                                                                </h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body" style="white-space: normal; word-wrap: break-word;">
+                                                                <div>`
+                                        if (JSON.parse(single_report['task_report']).length > 0) {
+                                            JSON.parse(single_report['task_report']).forEach(task => {
+
+                                                htm +=
+                                                    `<div class="single-task">
+                                                                                <span
+                                                                                    class="title">Title:</span><span>${task['title']}</span>`
+                                                if (task['remarks']) {
+                                                    htm += ` <span class="title">Remarks:</span><span class="remarks">
+                                                                                        ${task['remarks']} </span>`
+                                                }
+                                                htm += `</div>`
+                                            })
+                                        }
+                                        htm += `</div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>`
+                                    }
+                                    htm += `</td>
                                         </tr>`
                                 });
                                 tbodyField.innerHTML = htm;

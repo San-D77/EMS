@@ -30,7 +30,7 @@ class AttendanceSeeder extends Seeder
             if (in_array($date->toDateString(), explode(',', $month->public_holidays))) {
             } else {
                 $faker = Faker::create();
-                $iterator = random_int(20, User::count());
+                $iterator = random_int(1, User::count());
 
                 for ($i = 0; $i < $iterator; $i++) {
 

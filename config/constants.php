@@ -83,6 +83,7 @@ return [
             'icon' => 'feather',
             'roles' => [
                 'superadmin',
+                'admin'
             ],
             'children' => [
                 [
@@ -91,6 +92,7 @@ return [
                     'parameter' => false,
                     'roles' => [
                         'superadmin',
+                        'admin'
                     ]
                 ],
                 [
@@ -98,7 +100,7 @@ return [
                     'route' => 'backend.role-create',
                     'parameter' => false,
                     'roles' => [
-                        'superadmin',
+                        'superadmin','admin'
                     ]
                 ]
             ]

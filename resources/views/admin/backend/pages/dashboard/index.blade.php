@@ -215,6 +215,136 @@
                 </div>
             </div>
         </div> <!-- row -->
+    @else
+        <div class="row">
+            <div class="col-12 col-xl-12 stretch-card">
+                <div class="row flex-grow-1">
+                    <div class="col-md-4 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-baseline">
+                                    <h6 class="card-title mb-0">Present This Month</h6>
+                                    {{-- <span>
+                                        <!-- Button trigger modal -->
+                                        <button style="background:transparent; color:green; border:none;" type="button"
+                                            class="btn btn-sm btn-primary" data-toggle="modal"
+                                            data-target="#presentModal">
+                                            <i class="link-icon" data-feather="eye"></i>
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="presentModal" tabindex="-1" role="dialog"
+                                            aria-labelledby="presentModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="text-align: center;">
+                                                        <h5 class="modal-title" id="presentModalLongTitle">
+                                                            Present Today
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body"
+                                                        style="white-space: normal; word-wrap: break-word;">
+                                                        <div>
+                                                            @foreach ($present_today as $present)
+                                                                <p class="present-name">{{ $present->user->name }}</p>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </span> --}}
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 col-md-12 col-xl-5">
+
+                                        <div class="d-flex align-items-baseline">
+                                            <p class="text-success">
+                                            <h3 style="color:green;" class="mb-2 mt-4">{{ $present_this_month }}</h3>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-12 col-xl-7">
+                                        <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-baseline">
+                                    <h6 class="card-title mb-0">Tasks This Month</h6>
+                                    {{-- <span>
+                                        <!-- Button trigger modal -->
+                                        <button style="background:transparent; color:orange; border:none;" type="button"
+                                            class="btn btn-sm btn-primary" data-toggle="modal"
+                                            data-target="#on_leaveModal">
+                                            <i class="link-icon" data-feather="eye"></i>
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="on_leaveModal" tabindex="-1" role="dialog"
+                                            aria-labelledby="on_leaveModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="text-align: center;">
+                                                        <h5 class="modal-title" id="on_leaveModalLongTitle">
+                                                            On Leave Today
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body"
+                                                        style="white-space: normal; word-wrap: break-word;">
+                                                        <div>
+                                                            @foreach ($on_leave as $on_leave_user)
+                                                                <p class="on_leave-name">{{ $on_leave_user->user->name }}
+                                                                </p>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </span> --}}
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 col-md-12 col-xl-5">
+
+                                        <div class="d-flex align-items-baseline">
+                                            <p class="text-success">
+                                            <h3 style="color:rgb(238, 164, 27);" class="mb-2 mt-4">{{$task_this_month}}
+                                            </h3>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-12 col-xl-7">
+                                        <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div> <!-- row -->
     @endif
 
     {{-- <div class="row">
