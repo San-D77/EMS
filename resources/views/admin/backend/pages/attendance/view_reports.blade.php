@@ -73,9 +73,9 @@
                     <th>S.N.</th>
                     <th>Employee Name</th>
                     <th>Arrival</th>
-                    <th>Logged In From</th>
+                    <th>Log_In IP</th>
                     <th>Departure</th>
-                    <th>Logged Out From</th>
+                    <th>Log_Out IP</th>
                     <th>Stay Time</th>
                     <th>Task Count</th>
                     <th>Report Status</th>

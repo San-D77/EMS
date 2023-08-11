@@ -18,6 +18,7 @@
                     <th>S.N.</th>
                     <th>Employee Name</th>
                     <th>Session Start</th>
+                    <th>Log_In IP</th>
                 </thead>
                 <tbody class="report-data">
                     @foreach ($presents as $single_attendance)
@@ -28,6 +29,7 @@
                             </td>
                             <td>{{ $single_attendance->user->name }}</td>
                             <td>{{ $single_attendance->session_start }}</td>
+                            <td>{{ $single_attendance->login_location }}</td>
                         </tr>
                     @endforeach
                 </tbody>
