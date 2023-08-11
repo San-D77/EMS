@@ -61,4 +61,11 @@ class User extends Authenticatable
         return $this->hasMany(Leave::class);
     }
 
+    public function totalAttendanceDays($startDate, $endDate)
+    {
+        return $this->attendance()
+            ->whereBetween('date', [$startDate, $endDate])
+            ->count();
+    }
+
 }

@@ -78,6 +78,7 @@ class LeaveController extends Controller
 
     public function individual(User $user)
     {
+
         return view('admin.backend.pages.leave.individual', [
             "leaves" => Leave::where('user_id', $user->id)->get()
         ]);

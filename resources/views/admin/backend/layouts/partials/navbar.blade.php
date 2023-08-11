@@ -5,14 +5,9 @@
     </a>
     <div class="navbar-content">
 
-        <form class="search-form">
-            <div class="input-group">
-                <div class="input-group-text">
-                    <i data-feather="search"></i>
-                </div>
-                <input type="text" class="form-control" id="navbarForm" placeholder="Search here...">
-            </div>
-        </form>
+        <div class="d-flex align-items-center flex-wrap text-nowrap">
+            <h4 style="color:rgb(9, 100, 9);">{{ toBikramSambatDate(\Carbon\Carbon::today()) }}</h4>
+        </div>
         <ul class="navbar-nav">
             <li class="nav-item">
                 <span style="color: green;" id="session-duration"></span>
@@ -31,12 +26,12 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="wd-30 ht-30 rounded-circle" src="{{ asset('/avatars/thumbnail/'.Auth::user()->avatar) }}" style="object-fit:cover;object-position:cover;" alt="profile">
+                    <img class="wd-30 ht-30 rounded-circle" src="{{ Auth::user()->avatar?asset('/avatars/thumbnail/'.Auth::user()->avatar): (Auth::user()->gender == 'female'? asset('/avatar/female-avatar.jpg') : asset('/avatar/male-avatar.jpg')) }}" style="object-fit:cover;object-position:cover;" alt="profile">
                 </a>
                 <div class="dropdown-menu p-0" aria-labelledby="profileDropdown">
                     <div class="d-flex flex-column align-items-center border-bottom px-5 py-3">
                         <div class="mb-3">
-                            <img class="wd-80 ht-80 rounded-circle" src="{{ asset('/avatars/thumbnail/'.Auth::user()->avatar) }}"
+                            <img class="wd-80 ht-80 rounded-circle" src="{{ Auth::user()->avatar?asset('/avatars/thumbnail/'.Auth::user()->avatar): (Auth::user()->gender == 'female'? asset('/avatar/female-avatar.jpg') : asset('/avatar/male-avatar.jpg')) }}"
                                 alt="" style="object-fit:cover;object-position:cover;">
                         </div>
                         <div class="text-center">

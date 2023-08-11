@@ -69,6 +69,24 @@ class UserController extends Controller
         ]);
         return back()->with('success', 'Status changed successfully');
     }
+
+    public function target(User $user){
+        return view('admin.backend.pages.users.target',[
+            "user" => $user
+        ]);
+    }
+
+    public function post_target(Request $request, User $user){
+        $validatedData = $request->validate([
+            'standard_task' => 'required|integer|min:1',
+            'standard_time' => 'required'
+        ]);
+        $user->update([
+            'standard_time' => $validatedData['standard_time'],
+            'standard_task' => $validatedData['standard_task'],
+        ]);
+        return redirect()->route('backend.user-view');
+    }
     public function update_profile()
     {
 
@@ -76,6 +94,8 @@ class UserController extends Controller
             'user' => Auth::user()
         ]);
     }
+
+
 
     public function upload_photo()
     {

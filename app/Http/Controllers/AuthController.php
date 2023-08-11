@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 use PragmaRX\Google2FAQRCode\Google2FA;
@@ -11,7 +12,8 @@ use PragmaRX\Google2FAQRCode\Google2FA;
 class AuthController extends Controller
 {
     protected $redirectTo = '/backend/dashboard';
-    public function login(){
+    public function login()
+    {
         if (!request()->hasValidSignature() || !session()->has("valid-user")) {
             abort(404);
         }
@@ -21,18 +23,26 @@ class AuthController extends Controller
     public function postLogin(LoginRequest $request)
     {
         if (auth()->attempt($request->only('email', 'password'))) {
+            $user = Auth::user();
 
-            if (config("constants.enable_2fa")) {
-                if (!auth()->user()->google2fa_secret) {
-                    // setup 2fa
-                    return redirect()->route("2fa-enable");
-                } else {
-                    // validate 2fa
-                    return redirect()->route("2fa-enable");
+            if ($user->status) {
+                if (config("constants.enable_2fa")) {
+                    if (!$user->google2fa_secret) {
+                        // Setup 2FA
+                        return redirect()->route("2fa-enable");
+                    } else {
+                        // Validate 2FA
+                        return redirect()->route("2fa-validate");
+                    }
                 }
+
+                return redirect()->intended($this->redirectTo);
+            } else {
+                auth()->logout();
+                return back()->withErrors(["email" => "You can't login"]);
             }
-            return redirect()->intended($this->redirectTo);
         }
+
         return back()->withErrors(["email" => "Invalid email or password"]);
     }
 
@@ -42,7 +52,7 @@ class AuthController extends Controller
     {
 
         $user = auth()->user();
-        if (!$user->google2fa_secret || $request->forgot ) {
+        if (!$user->google2fa_secret || $request->forgot) {
             $google2fa = new Google2FA();
 
             $secret = $google2fa->generateSecretKey();
@@ -103,4 +113,3 @@ class AuthController extends Controller
         return redirect()->route("login_url");
     }
 }
-

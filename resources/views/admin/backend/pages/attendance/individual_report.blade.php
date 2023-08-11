@@ -1,10 +1,12 @@
 @extends('admin.backend.layouts.index')
 @section('content')
     <div style="display:flex;flex-direction:row;justify-content:end; align-items:center;">
-        <span class="mx-3 task-counter" style="font-size:18px; font-weight:500; color: green;">Total Tasks: {{ $tasks->total }}</span>
-        <a href="{{ route('backend.attendance-individual_report', [Auth::user()->id, 'last-month']) }}"
+
+        <span class="mx-3 task-counter" style="font-size:18px; font-weight:500; color: green;">Total Tasks:
+            {{ $tasks->total }}</span>
+        <a href="{{ route('backend.attendance-individual_report', [$user->id, 'last-month']) }}"
             class="btn btn-sm btn-primary ">Last Month</a>
-        <a href="{{ route('backend.attendance-individual_report', [Auth::user()->id, 'this-month']) }}"
+        <a href="{{ route('backend.attendance-individual_report', [$user->id, 'this-month']) }}"
             class="btn btn-sm btn-primary mx-2">This Month</a>
         <div class="input-group flatpickr wd-200 me-2 mb-2 mb-md-0" id="first-calendar">
             <span class="input-group-text input-group-addon bg-transparent border-primary" data-toggle><i
@@ -23,6 +25,7 @@
         <thead>
             <th>S.N.</th>
             <th>Date</th>
+            <th>Day</th>
             <th>Session Start</th>
             <th>Session End</th>
             <th>Stay Time</th>
@@ -34,8 +37,9 @@
                     <td>
                         {{ $loop->iteration }}
                     </td>
-                    <td>{{ $single_report->day }} &nbsp;<span
-                            style="background: #ffe02f; padding: 5px 10px; border-radius: 4px;">{{ $single_report->created_at->format('D') }}</span>
+                    <td>{{ $single_report->day }}</td>
+                    <td><span
+                            style="background: #ffe02f; padding: 5px 10px; border-radius: 4px; font-family: Courier New, monospace;">{{ $single_report->created_at->format('D') }}</span>
                     </td>
                     <td>{{ $single_report->session_start }}</td>
                     <td>{{ $single_report->session_end }}</td>
@@ -112,7 +116,9 @@
                                 let iteration = 0;
                                 htm = '';
                                 d.forEach(single_report => {
-                                    const taskReportCount = single_report.task_report ? JSON.parse(single_report.task_report).length : 0;
+                                    var dateObj = new Date(single_report['created_at']);
+                                    const taskReportCount = single_report.task_report ? JSON.parse(single_report
+                                        .task_report).length : 0;
                                     iteration++;
                                     htm += `
                                         <tr>
@@ -120,6 +126,8 @@
                                                 ${iteration}
                                             </td>
                                             <td>${ single_report['day']? single_report['day'] :'' }</td>
+                                            <td><span
+                            style="background: #ffe02f; padding: 5px 10px; border-radius: 4px; font-family: Courier New, monospace;">${ dateObj.toLocaleString('en-US', { weekday: 'short' }) }</span></td>
                                             <td>${ single_report['session_start']? single_report['session_start'] :'' }</td>
                                             <td>${ single_report['session_end']? single_report['session_end'] :'' }</td>
                                             <td>${ single_report['duration']? single_report['duration'] :'' }</td>
@@ -128,7 +136,7 @@
                                 });
                                 tbodyField.innerHTML = htm;
                                 taskCounter.innerText = "Total Tasks: " + data.tasks.total;
-                            }else{
+                            } else {
                                 htm = "There is no record for the duration you selected!"
                                 tbodyField.innerHTML = htm;
                                 taskCounter.innerText = "Total Tasks: " + 0;

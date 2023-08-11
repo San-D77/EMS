@@ -1,4 +1,4 @@
-<form class="row g-3" method="POST" action="">
+<form class="row g-3" method="POST" action="{{ route('backend.leave-store', Auth::user()->id) }}">
     <div class="row">
         @include('error')
         <div class="col-xl-10 mx-auto">

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use PharIo\Manifest\AuthorCollection;
@@ -20,14 +21,24 @@ use PharIo\Manifest\AuthorCollection;
 $login_url = env("ADMIN_URL", '/');
 
 Route::get("$login_url", function () {
-    if(session()->get('valid-user') && session()->get('valid-user') == true){
-        return redirect()->intended('/backend/dashboard');
-    }else{
+    if (session()->get('valid-user') && session()->get('valid-user') == true) {
+        // Check the user's status here
+        $user = Auth::user(); // Assuming you're using Laravel's authentication
+
+        if ($user && $user->status) {
+            return redirect()->intended('/backend/dashboard');
+        } else {
+            session()->put("valid-user", "true");
+            $url = (URL::temporarySignedRoute('login', now()->addMinutes(2)));
+            return redirect()->to($url);
+        }
+    } else {
         session()->put("valid-user", "true");
         $url = (URL::temporarySignedRoute('login', now()->addMinutes(2)));
         return redirect()->to($url);
     }
 })->name("login_url");
+
 
 Route::get('/login', [AuthController::class, "login"])->name("login")->middleware(["throttle:5"]);;
 Route::post("/login", [AuthController::class, "postLogin"])->name("post-login");

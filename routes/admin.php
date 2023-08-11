@@ -35,6 +35,9 @@ Route::group(['prefix' => 'user', "as" => "user-",'middleware' =>['roles']], fun
     Route::get("/delete/{user}", [UserController::class, "destroy"])->name("delete");
     Route::get("/status-update/{user}", [UserController::class, "update_status"])->name("update_status");
 
+    Route::get('/target/{user}',[UserController::class, "target"])->name('target');
+    Route::post("/target/{user}", [UserController::class, "post_target"])->name('post_target');
+
     Route::get("/profile", [UserController::class, "update_profile"])->name("update_profile");
     Route::get('/profile/upload-photo', [UserController::class, "upload_photo"])->name('upload_photo');
     Route::post('/profile/upload-photo',[UserController::class, "post_upload_photo"])->name('post_upload_photo');
@@ -88,8 +91,9 @@ Route::group(['prefix' => 'attendance', 'as' => 'attendance-','middleware' =>['r
     Route::post('/save-task/{user}', [AttendanceController::class, 'save_tasks'])->name('save_tasks');
 
     Route::get('/view-reports', [AttendanceController::class, 'view_reports'])->name('view_reports');
+    Route::post('/report/{attendance}/{action}', [AttendanceController::class, 'take_action'])->name('take_action');
 
-    Route::get('/view-report/{user}', [AttendanceController::class, 'view'] )->name('view'  );
+    Route::get('/view-report/{date?}', [AttendanceController::class, 'view'] )->name('view'  );
     Route::post('/generate-report/{user}', [AttendanceController::class,'generate_report'])->name('generate_report');
 
     Route::get('/today', [AttendanceController::class, 'today'])->name('today');

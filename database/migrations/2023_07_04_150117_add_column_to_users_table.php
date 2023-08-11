@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string("gender")->nullable();
             $table->string("designation")->nullable();
             $table->string("employment_type")->nullable();
+            $table->string('standard_time')->nullable();
+            $table->string('standard_task')->nullable();
             $table->boolean("status")->default(true);
             $table->string('google2fa_secret')->nullable();
         });

@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('session_start');
             $table->string('session_end')->nullable();
             $table->string('duration')->nullable();
-            $table->string('location')->nullable();
+            $table->string('login_location')->nullable();
+            $table->string('logout_location')->nullable();
             $table->text('task_report')->nullable();
             $table->string('report_status')->nullable();
             $table->timestamps();

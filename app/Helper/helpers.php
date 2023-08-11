@@ -17,6 +17,7 @@ if (!function_exists('toGregorianDate')) {
 if (!function_exists('toBikramSambatDate')) {
     function toBikramSambatDate($date, $year = null , $month = null, $first_day=null, $last_day =null)
     {
+
         $foundDate = Calendar::where('first_day', '<=', $date)
         ->where('last_day', '>=', $date)
         ->first();

@@ -26,6 +26,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Status</th>
+                            <th>Employment Type</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -43,9 +44,15 @@
 
                                 </td>
 
+                                <td>{{ ucfirst($user->employment_type) }}</td>
+
                                 <td>
                                     <a href="{{ route('backend.user-edit', $user->id) }}"
                                         class="btn btn-primary btn-sm">Edit</a>
+                                    @if ($user->employment_type == 'full-time')
+                                        <a href="{{ route('backend.user-target', $user->id) }}"
+                                            class="btn btn-secondary btn-sm">Target</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

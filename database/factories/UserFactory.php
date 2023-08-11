@@ -22,6 +22,13 @@ class UserFactory extends Factory
         $alias = explode(' ',$name)[0].' '.explode(' ',$name)[1];
         $slug = Str::slug($alias);
         $role = Role::find(random_int(1, Role::count()));
+        $employment_type = config("constants.employment_types")[random_int(0, (count(config("constants.employment_types"))-1))];
+        $standard_task= '';
+        $standard_time = '';
+        if($employment_type == "full-time"){
+            $standard_time = "08:00";
+            $standard_task = random_int(2,4);
+        }
         return [
             'name' => $name,
             'email' => fake()->unique()->safeEmail(),
@@ -32,7 +39,9 @@ class UserFactory extends Factory
             'slug' => $slug,
             'role_id' => $role->id,
             "designation" => config("constants.designations")[random_int(0, (count(config("constants.designations"))-2))],
-            "employment_type" => config("constants.employment_types")[random_int(0, (count(config("constants.employment_types"))-1))]
+            "employment_type" => $employment_type,
+            "standard_time" => $standard_time,
+            "standard_task" => $standard_task
         ];
     }
 

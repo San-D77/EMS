@@ -27,6 +27,7 @@ class UserRequest extends FormRequest
             "password" => $this->password ?"required_without:id|min:6":'',
             "alias_name" => "required|string|max:255",
             "role_id" => "required|exists:roles,id",
+            "gender" => "required",
             "designation" => "required|string|max:255",
             "employment_type" => "required|string|max:255",
             "slug" => "required|string|max:255|unique:users,slug," . $this->route("user")?->id,

@@ -27,6 +27,7 @@
             <th>Message</th>
         </thead>
         <tbody class="report-data">
+
             @foreach ($leaves as $leave)
                 <tr>
                     <td>
@@ -34,7 +35,7 @@
                     </td>
                     <td>{{ ucwords(str_replace('-',' ',$leave->leave_type)) }}</td>
                     <td>{{ $leave->date }}</td>
-                    <td>{{ toBikramSambatDate($leave->date) }}</td>
+                    <td>{{ $leave->date? toBikramSambatDate($leave->date): toBikramSambatDate($leave->first_day).' -- '. toBikramSambatDate($leave->last_day) }}</td>
                     <td>{{ $leave->description }}</td>
                     <td class="{{ ($leave->status == 'pending')? 'pending' : (($leave->status == 'approved')? 'approved' : 'rejected') }}">{{ ucfirst($leave->status) }}</td>
                     <td>{{ $leave->message }}</td>

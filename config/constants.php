@@ -3,6 +3,7 @@
 return [
     "enable_2fa" => false,
     "designations" => [
+        "trainee",
         "writer",
         "senior-writer",
         "editor",
@@ -261,7 +262,7 @@ return [
             'hasChildren' => 'false',
             'name' => 'attendance',
             'route' => 'backend.attendance-view',
-            'parameter' => true,
+            'parameter' => false,
             'icon' => 'clipboard',
             'roles' => [
                 'superadmin',
