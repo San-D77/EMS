@@ -28,7 +28,7 @@
     </div>
     @if (Auth::user()->role->slug == 'admin' ||
             Auth::user()->role->slug == 'superadmin' ||
-            Auth::user()->role->slug == 'superviser')
+            Auth::user()->role->slug == 'supervisor')
         <div class="row">
             <div class="col-12 col-xl-12 stretch-card">
                 <div class="row flex-grow-1">

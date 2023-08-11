@@ -23,8 +23,9 @@ class UserSeeder extends Seeder
             'slug' => 'ray',
             'role_id' => 1,
             "designation" => "supervisor",
-            "employment_type" => "full-time"
+            "employment_type" => "full-time",
+            "gender" => "male"
         ]);
-        User::factory(25)->create();
+
     }
 }

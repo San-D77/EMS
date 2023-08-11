@@ -2,7 +2,7 @@
 <nav class="sidebar">
     <div class="sidebar-header">
         <a href="{{ route('backend.dashboard') }}" class="sidebar-brand">
-            Pandora<span>GOC</span>
+            <img style="width:125px;" src="{{ asset('/assets/images/logo.png') }}" alt="">
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>

@@ -95,7 +95,7 @@ class AttendanceController extends Controller
 
         $full_time_reports =    Attendance::join('users', 'attendances.user_id', '=', 'users.id')
             ->where('users.employment_type', 'full-time')
-            ->where('attendances.report_status', 'pending')
+            ->whereNot('attendances.report_status','')
             ->whereDate('attendances.created_at', $yesterday)
             ->select('attendances.*')
             ->get();
@@ -108,7 +108,7 @@ class AttendanceController extends Controller
             ->get();
 
         $unsubmitted = Attendance::whereDate('created_at', $yesterday)
-            ->WhereNull('report_status')
+            ->where('report_status','')
             ->get();
 
         $attendanceData = User::join('attendances', 'users.id', '=', 'attendances.user_id')

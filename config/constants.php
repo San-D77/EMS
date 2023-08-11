@@ -9,8 +9,8 @@ return [
         "editor",
         "senior-editor",
         "site-manager",
-        "superviser",
         "hr-manager",
+        "administrator"
     ],
     "employment_types" => [
         "full-time",
@@ -41,7 +41,7 @@ return [
             'roles' => [
                 'superadmin',
                 'admin',
-                'superviser',
+                'supervisor',
                 'maintainer',
                 'user'
             ]
@@ -53,7 +53,7 @@ return [
             'roles' => [
                 'superadmin',
                 'admin',
-                'superviser',
+                'supervisor',
             ],
             'children' => [
                 [
@@ -63,7 +63,7 @@ return [
                     'roles' => [
                         'superadmin',
                         'admin',
-                        'superviser',
+                        'supervisor',
                     ]
                 ],
                 [
@@ -136,7 +136,7 @@ return [
             'roles' => [
                 'superadmin',
                 'admin',
-                'superviser',
+                'supervisor',
                 'maintainer',
                 'user'
             ],
@@ -148,7 +148,7 @@ return [
                     'roles' => [
                         'superadmin',
                         'admin',
-                        'superviser',
+                        'supervisor',
                         'maintainer',
                     ]
                 ],
@@ -168,7 +168,7 @@ return [
                     'roles' => [
                         'superadmin',
                         'admin',
-                        'superviser',
+                        'supervisor',
                         'maintainer',
                         'user'
                     ]
@@ -182,7 +182,7 @@ return [
             'roles' => [
                 'superadmin',
                 'admin',
-                'superviser',
+                'supervisor',
                 'maintainer',
                 'user'
             ],
@@ -194,7 +194,7 @@ return [
                     'roles' => [
                         'superadmin',
                         'admin',
-                        'superviser',
+                        'supervisor',
                     ]
                 ],
                 [
@@ -204,7 +204,7 @@ return [
                     'roles' => [
                         'superadmin',
                         'admin',
-                        'superviser',
+                        'supervisor',
                         'maintainer',
                         'user'
                     ]
@@ -216,7 +216,7 @@ return [
                     'roles' => [
                         'superadmin',
                         'admin',
-                        'superviser',
+                        'supervisor',
                         'maintainer',
                         'user'
                     ]
@@ -230,7 +230,7 @@ return [
             'roles' => [
                 'superadmin',
                 'admin',
-                'superviser',
+                'supervisor',
                 'maintainer',
                 'user'
             ],
@@ -251,7 +251,7 @@ return [
                     'roles' => [
                         'superadmin',
                         'admin',
-                        'superviser',
+                        'supervisor',
                         'maintainer',
                         'user'
                     ]
@@ -267,7 +267,7 @@ return [
             'roles' => [
                 'superadmin',
                 'admin',
-                'superviser',
+                'supervisor',
                 'maintainer',
                 'user'
             ]
@@ -281,7 +281,7 @@ return [
             'roles' => [
                 'superadmin',
                 'admin',
-                'superviser',
+                'supervisor',
             ]
         ],
         'today' => [
@@ -293,7 +293,7 @@ return [
             'roles' => [
                 'superadmin',
                 'admin',
-                'superviser',
+                'supervisor',
             ]
         ],
     ],

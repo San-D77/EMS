@@ -26,6 +26,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Status</th>
+                            <th>Designation</th>
                             <th>Employment Type</th>
                             <th>Action</th>
                         </tr>
@@ -43,6 +44,7 @@
                                     </a>
 
                                 </td>
+                                <td>{{ ucfirst($user->designation) }}</td>
 
                                 <td>{{ ucfirst($user->employment_type) }}</td>
 

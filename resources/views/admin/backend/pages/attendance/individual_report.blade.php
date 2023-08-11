@@ -1,7 +1,48 @@
 @extends('admin.backend.layouts.index')
 @section('content')
-    <div style="display:flex;flex-direction:row;justify-content:end; align-items:center;">
+    @push('styles')
+        <style>
+            .table-striped>tbody>tr>td.less-task {
+                background: #eb7777;
+                padding: 10px;
+                color: #494949 !important;
+                --bs-table-striped-bg: #eb7777;
+            }
 
+            .table-striped>tbody>tr>td.less-time {
+                background: #ebbd77;
+                padding: 10px;
+                color: #494949 !important;
+                --bs-table-striped-bg: #ebbd77;
+            }
+
+            .single-task {
+                /* border: 1px solid #ff9c9c; */
+                border-radius: 5px;
+                padding: 15px;
+                margin-bottom: 10px;
+                box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.5);
+                color: #1269da;
+                font-size: 16px;
+                line-height: 25px;
+                font-weight: 500;
+            }
+
+            .remarks {
+                color: #4f0fff;
+                display: block;
+                margin-top: 15px;
+            }
+
+            .title {
+                display: block;
+                color: green;
+                margin: 10px 0px;
+            }
+        </style>
+    @endpush
+    <span style="color:#1269da; font-size: 20px; font-weight: 600;">{{ $reports[0]->user->name }}</span>
+    <div style="display:flex;flex-direction:row;justify-content:end; align-items:center;">
         <span class="mx-3 task-counter" style="font-size:18px; font-weight:500; color: green;">Total Tasks:
             {{ $tasks->total }}</span>
         <a href="{{ route('backend.attendance-individual_report', [$user->id, 'last-month']) }}"
@@ -43,8 +84,15 @@
                     </td>
                     <td>{{ $single_report->session_start }}</td>
                     <td>{{ $single_report->session_end }}</td>
-                    <td>{{ $single_report->duration }}</td>
-                    <td>{{ isset($single_report->task_report) ? count(json_decode($single_report->task_report)) : 0 }}</td>
+                    <td
+                        class="
+                                            {{ strtotime($single_report->duration) < strtotime($single_report->user->standard_time) ? 'less-time' : '' }}
+                                        ">
+                        {{ $single_report->duration }}</td>
+                    <td style="color:rgb(32, 7, 29);"
+                        class="{{ count(json_decode($single_report->task_report)) < (int) $single_report->user->standard_task ? 'less-task' : '' }}">
+                        {{ count(json_decode($single_report->task_report)) }}
+                    </td>
                 </tr>
             @endforeach
         </tbody>
@@ -95,7 +143,7 @@
 
                     // Make the API call with the selected dates
 
-                    fetch('{{ route('backend.attendance-individual_report_json', [Auth::user()->id]) }}', {
+                    fetch('{{ route('backend.attendance-individual_report_json', [$reports[0]->user->id]) }}', {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -117,11 +165,18 @@
                                 htm = '';
                                 d.forEach(single_report => {
                                     var dateObj = new Date(single_report['created_at']);
-                                    const taskReportCount = single_report.task_report ? JSON.parse(single_report
-                                        .task_report).length : 0;
+                                    const taskReportCount = single_report.task_report ? JSON.parse(single_report[
+                                        'task_report']).length : 0;
+
+                                    const date1 = new Date(`1970-01-01T${single_report['duration']}`);
+                                    const date2 = new Date(`1970-01-01T{{ $single_report->user->standard_time }}`)
+
+                                    const task_count = JSON.parse(single_report['task_report']).length
+                                    const standard_task = {{ $single_report->user->standard_task }} <= task_count
+
                                     iteration++;
                                     htm += `
-                                        <tr>
+                                        <tr style="background:#b6dde9 !important; font-size: 17px; font-weight:600;">
                                             <td>
                                                 ${iteration}
                                             </td>
@@ -130,8 +185,8 @@
                             style="background: #ffe02f; padding: 5px 10px; border-radius: 4px; font-family: Courier New, monospace;">${ dateObj.toLocaleString('en-US', { weekday: 'short' }) }</span></td>
                                             <td>${ single_report['session_start']? single_report['session_start'] :'' }</td>
                                             <td>${ single_report['session_end']? single_report['session_end'] :'' }</td>
-                                            <td>${ single_report['duration']? single_report['duration'] :'' }</td>
-                                            <td>${taskReportCount}</td>
+                                            <td class="${(date1  < date2)? 'less-time' : ''}">${ single_report['duration']? single_report['duration'] :'' }</td>
+                                            <td class="${standard_task ? '' : 'less-task'}">${taskReportCount}</td>
                                         </tr>`
                                 });
                                 tbodyField.innerHTML = htm;
