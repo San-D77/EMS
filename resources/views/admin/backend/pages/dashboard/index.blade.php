@@ -19,6 +19,15 @@
                 font-weight: 500;
                 color: rgb(218, 83, 42);
             }
+            .single-leave{
+                padding: 10px;
+                border: 1px solid #e0e0e0;
+                border-radius: 5px;
+                box-shadow: 0px 4px 4px 0px rgba(0,0,0,.1);
+            }
+            .single-leave .reason{
+                margin-left: 10px;
+            }
         </style>
     @endpush
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
@@ -121,8 +130,12 @@
                                                         style="white-space: normal; word-wrap: break-word;">
                                                         <div>
                                                             @foreach ($on_leave as $on_leave_user)
-                                                                <p class="on_leave-name">{{ $on_leave_user->user->name }}
-                                                                </p>
+                                                                <div class="single-leave">
+                                                                    <p class="on_leave-name">
+                                                                        {{ $on_leave_user->user->name }}
+                                                                    </p>
+                                                                    <p class="reason">{{ $on_leave_user->description }}</p>
+                                                                </div>
                                                             @endforeach
                                                         </div>
                                                     </div>
@@ -329,7 +342,7 @@
 
                                         <div class="d-flex align-items-baseline">
                                             <p class="text-success">
-                                            <h3 style="color:rgb(238, 164, 27);" class="mb-2 mt-4">{{$task_this_month}}
+                                            <h3 style="color:rgb(238, 164, 27);" class="mb-2 mt-4">{{ $task_this_month }}
                                             </h3>
                                             </p>
                                         </div>
