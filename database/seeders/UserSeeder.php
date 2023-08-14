@@ -26,6 +26,6 @@ class UserSeeder extends Seeder
             "employment_type" => "full-time",
             "gender" => "male"
         ]);
-
+        // User::factory(30)->create();
     }
 }

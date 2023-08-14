@@ -184,6 +184,7 @@
                     <th>Employee Name</th>
                     <th>Task Count</th>
                     <th>Report Status</th>
+                    <th>Aciton</th>
                 </thead>
                 <tbody class="report-data">
                     @foreach ($part_time_reports as $single_attendance)
@@ -197,6 +198,69 @@
                                 {{ count(json_decode($single_attendance->task_report)) }}
                             </td>
                             <td>{{ ucfirst($single_attendance->report_status) }}</td>
+                            <td>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                                    data-target="#parttimereportModal{{ $loop->iteration }}">
+                                    View
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="parttimereportModal{{ $loop->iteration }}" tabindex="-1"
+                                    role="dialog" aria-labelledby="parttimereportModal{{ $loop->iteration }}CenterTitle"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="text-align: center;">
+                                                <h5 class="modal-title" id="parttimereportModal{{ $loop->iteration }}LongTitle">
+                                                    Report of
+                                                    <span
+                                                        style="color:green;">{{ ucfirst($single_attendance->user->name) }}</span>
+                                                    for <span style="color:#084799">
+                                                        {{ $single_attendance->day }}</span>
+
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body" style="white-space: normal; word-wrap: break-word;">
+                                                <div>
+                                                    @foreach (json_decode($single_attendance->task_report) as $task)
+                                                        <div class="single-task">
+                                                            <span
+                                                                class="title">Title:</span><span>{{ $task->title }}</span>
+                                                            @if (isset($task->remarks))
+                                                                <span class="title">Remarks:</span><span class="remarks">
+                                                                    {{ $task->remarks }}</span>
+                                                            @endif
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <form
+                                                    action="{{ route('backend.attendance-take_action', [$single_attendance->id, 'approved']) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-success">Approve</button>
+                                                </form>
+                                                <form
+                                                    action="{{ route('backend.attendance-take_action', [$single_attendance->id, 'needs-attention']) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-warning">Needs
+                                                        Attention</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -249,7 +313,7 @@
                                 {{ $working_days - $user->total_attendance_days }}
                             </td>
                             <td>
-                                {{ ($working_days - $user->total_attendance_days < 2) ? (2 - ($working_days - $user->total_attendance_days)) : 0 }}
+                                {{ $working_days - $user->total_attendance_days < 2 ? 2 - ($working_days - $user->total_attendance_days) : 0 }}
                             </td>
                             <td>
                                 <a href="{{ route('backend.attendance-individual_report', $user->id) }}"
