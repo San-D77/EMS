@@ -24,8 +24,6 @@ class ShareStartTime
             ->whereDate('created_at', $today)
             ->whereNull('session_end')->first();
 
-
-
         $submitted =  Attendance::where('user_id', Auth::user()?->id)
             ->whereDate('created_at', $today)
             ->whereNotNull('session_end')->first();
@@ -35,7 +33,6 @@ class ShareStartTime
         $user2 = Auth::user();
         $userId = optional($user2)->id;
         $pending_notices = $userId ? Notice::whereRaw("Not JSON_CONTAINS(viewed_by, CAST($userId AS JSON))")->count()  : '';
-        // dd($pending_notices);
 
         view()->share([
             "start_time" => $user?->session_start,

@@ -21,7 +21,7 @@ class DashboardController extends Controller
             $today = Carbon::today();
             $yesterday = Carbon::yesterday();
             $present_today = Attendance::whereDate('created_at', $today)
-                ->get();
+                ->get()->unique('user_id');
             $on_leave = Leave::where(function ($query) use ($today) {
                 $query->whereDate('date', $today)
                     ->orWhere(function ($subQuery) use ($today) {

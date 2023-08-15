@@ -15,12 +15,17 @@ class AttendanceController extends Controller
 {
     public function register_attendance(User $user,)
     {
-        Attendance::create([
-            'user_id' => $user->id,
-            'day' => toBikramSambatDate(now()),
-            'session_start' => \Carbon\Carbon::now()->format('H:i:s'),
-            'login_location' => request()->ip()
-        ]);
+        $attendance = Attendance::whereDate('created_at', Carbon::today())->where('user_id', $user->id)->first();
+        if ($attendance) {
+
+        } else {
+            Attendance::create([
+                'user_id' => $user->id,
+                'day' => toBikramSambatDate(now()),
+                'session_start' => \Carbon\Carbon::now()->format('H:i:s'),
+                'login_location' => request()->ip()
+            ]);
+        }
         return back();
     }
 
@@ -95,7 +100,7 @@ class AttendanceController extends Controller
 
         $full_time_reports =    Attendance::join('users', 'attendances.user_id', '=', 'users.id')
             ->where('users.employment_type', 'full-time')
-            ->whereNot('attendances.report_status','')
+            ->whereNot('attendances.report_status', '')
             ->whereDate('attendances.created_at', $yesterday)
             ->select('attendances.*')
             ->get();
@@ -108,7 +113,7 @@ class AttendanceController extends Controller
             ->get();
 
         $unsubmitted = Attendance::whereDate('created_at', $yesterday)
-            ->where('report_status','')
+            ->where('report_status', '')
             ->get();
 
         $attendanceData = User::join('attendances', 'users.id', '=', 'attendances.user_id')
@@ -183,7 +188,7 @@ class AttendanceController extends Controller
     public function today()
     {
         $today = now()->toDateString();
-        $attendances = Attendance::whereDate('created_at', $today)->with('user')->orderBy('created_at', 'desc')->get();
+        $attendances = Attendance::whereDate('created_at', $today)->with('user')->orderBy('created_at', 'desc')->get()->unique('user_id');
 
         $usersWithoutAttendance = User::whereNotIn('id', $attendances->pluck('user_id'))->get();
 
