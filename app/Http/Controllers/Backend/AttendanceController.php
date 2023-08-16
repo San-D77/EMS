@@ -17,7 +17,6 @@ class AttendanceController extends Controller
     {
         $attendance = Attendance::whereDate('created_at', Carbon::today())->where('user_id', $user->id)->first();
         if ($attendance) {
-
         } else {
             Attendance::create([
                 'user_id' => $user->id,
@@ -112,10 +111,13 @@ class AttendanceController extends Controller
             ->select('attendances.*')
             ->get();
 
-        $unsubmitted = Attendance::whereDate('created_at', $yesterday)
-            ->where('report_status', '')
-            ->get();
-
+        $unsubmitted = Attendance::whereDate('created_at', now()->subDay())
+            ->where(function ($query) {
+                $query->whereNull('report_status')
+                    ->orWhere('report_status', '');
+            })
+            ->get()
+            ->unique('user_id');
         $attendanceData = User::join('attendances', 'users.id', '=', 'attendances.user_id')
             ->whereBetween('attendances.created_at', [$month->first_day, Carbon::today()])
             ->select('users.id', 'users.name', DB::raw('COUNT(attendances.id) as total_attendance_days'))
