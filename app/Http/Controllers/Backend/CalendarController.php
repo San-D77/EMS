@@ -54,7 +54,7 @@ class CalendarController extends Controller
         $finalArray = array_merge($request->validated(), ['public_holidays_bs' => json_encode($dateJson)]);
 
         $date->update($finalArray);
-        return back();
+        return back()->with('success','Calendar updated successfully');
     }
 
     public function public_holiday_index()

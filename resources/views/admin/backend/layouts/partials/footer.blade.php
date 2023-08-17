@@ -57,7 +57,7 @@
             });
         }, 1000);
     });
-    console.log({{ $pending_notice_count }})
+
     if ("{{ $pending_notice_count }}" > 0) {
         notice_counter.forEach(single => {
             single.classList.remove('d-none');

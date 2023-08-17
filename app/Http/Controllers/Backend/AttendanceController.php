@@ -51,16 +51,13 @@ class AttendanceController extends Controller
             ->whereNull('session_end')->first();
 
 
-        $currentDateTime = now();
-        $previousDateTime = $user->created_at;
+        $session_start = Carbon::parse($user->created_at);
+        $second_time = Carbon::parse(now());
 
-        $timeDifference = strtotime($currentDateTime) - strtotime($previousDateTime);
 
-        $hours = floor($timeDifference / (60 * 60));
-        $minutes = floor(($timeDifference % (60 * 60)) / 60);
-        $seconds = $timeDifference % 60;
 
-        $time_duration = $hours . ':' . $minutes . ':' . $seconds;
+        $time_duration = $session_start->diff($second_time);
+        $time_duration = $time_duration->format('%H:%I:%S');
 
 
         $user->update([
@@ -72,6 +69,7 @@ class AttendanceController extends Controller
         ]);
 
         // Return the response
+        session()->flash('success', 'Your report was submitted successfully');
         return response()->json([
             'result' => 'successful'
         ]);

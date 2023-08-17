@@ -28,7 +28,7 @@ class DashboardController extends Controller
                         $subQuery->whereDate('first_day', '<=', $today)
                             ->whereDate('last_day', '>=', $today);
                     });
-            })->where('status', 'approved')->get();
+            })->where('status', 'approved')->get()->unique('user_id');
             $excluded_ids = $present_today->pluck('user_id')
                 ->merge($on_leave->pluck('user_id'))
                 ->unique();

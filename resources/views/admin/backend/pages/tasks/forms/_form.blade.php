@@ -125,11 +125,9 @@
                     body: jsonData
                 }).then(response => response.json())
                 .then(response => {
-                    console.log(response.result);
+
                     if(response.result == 'successful'){
-                        const mainBody = document.querySelector('.card-body');
-                        successMessage = `<div style="padding: 10px 15px; border: solid 1px green; background:#ddeedd; color:white;">Your Report was submitted successfully</div>`
-                        mainBody.innerHTML = successMessage;
+                        window.location.href = "{{ route('backend.dashboard') }}";
                     }
 
                 })

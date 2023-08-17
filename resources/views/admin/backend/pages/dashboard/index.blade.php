@@ -19,13 +19,15 @@
                 font-weight: 500;
                 color: rgb(218, 83, 42);
             }
-            .single-leave{
+
+            .single-leave {
                 padding: 10px;
                 border: 1px solid #e0e0e0;
                 border-radius: 5px;
-                box-shadow: 0px 4px 4px 0px rgba(0,0,0,.1);
+                box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, .1);
             }
-            .single-leave .reason{
+
+            .single-leave .reason {
                 margin-left: 10px;
             }
         </style>
