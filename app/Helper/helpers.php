@@ -15,27 +15,28 @@ if (!function_exists('toGregorianDate')) {
 }
 
 if (!function_exists('toBikramSambatDate')) {
-    function toBikramSambatDate($date, $year = null , $month = null, $first_day=null, $last_day =null)
+    function toBikramSambatDate($date, $year = null, $month = null, $first_day = null, $last_day = null)
     {
 
-        $foundDate = Calendar::where('first_day', '<=', $date)
-        ->where('last_day', '>=', $date)
-        ->first();
+        $foundDate = Calendar::whereDate('first_day', '<=', $date)
+            ->whereDate('last_day', '>=', $date)
+            ->first();
 
-        $first_day = $foundDate? $foundDate->first_day : $first_day;
-        $last_day = $foundDate? $foundDate->last_day : $last_day;
+        $first_day = $foundDate ? $foundDate->first_day : $first_day;
+        $last_day = $foundDate ? $foundDate->last_day : $last_day;
 
-        $year = $foundDate? $foundDate->year : $year;
-        $month = $foundDate? $foundDate->month : $month;
+        $year = $foundDate ? $foundDate->year : $year;
+        $month = $foundDate ? $foundDate->month : $month;
 
         $diffInDays = \Carbon\Carbon::parse($first_day)->diffInDays(\Carbon\Carbon::parse($date));
-        return ucfirst($month)." ". $diffInDays+1 .", ".$year;
 
+        return ucfirst($month) . " " . $diffInDays + 1 . ", " . $year;
     }
 }
 
 if (!function_exists('pusherTemplate')) {
-    function pusherTemplate($channel, $event, $data){
+    function pusherTemplate($channel, $event, $data)
+    {
         $options = [
             'cluster' => env('PUSHER_APP_CLUSTER'),
             'useTLS' => true
