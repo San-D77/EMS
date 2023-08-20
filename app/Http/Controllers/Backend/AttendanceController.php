@@ -114,7 +114,7 @@ class AttendanceController extends Controller
             ->select('attendances.*')
             ->get();
 
-        $unsubmitted = Attendance::whereDate('created_at', now()->subDay())
+        $unsubmitted = Attendance::whereDate('created_at', $yesterday)
             ->where(function ($query) {
                 $query->whereNull('report_status')
                     ->orWhere('report_status', '');
