@@ -73,77 +73,80 @@
             <th>Action</th>
         </thead>
         <tbody class="report-data">
-            @foreach ($user_attendance as $single_report)
-                <tr>
-                    <td>
-                        {{ $loop->iteration }}
-                    </td>
-                    <td>{{ $single_report->day }}</td>
-                    <td><span
-                            style="background: #ffe02f; padding: 5px 10px; border-radius: 4px; font-family: Courier New, monospace;">{{ $single_report->created_at->format('D') }}</span>
-                    </td>
-                    <td>{{ $single_report->session_start }}</td>
-                    <td>{{ $single_report->session_end }}</td>
-                    <td
-                        class="
-                                            {{ strtotime($single_report->duration) < strtotime($single_report->user->standard_time)
-                                                ? 'less-time'
-                                                : '' }}
+            @if ($user_attendance)
+                @foreach ($user_attendance as $single_report)
+                    <tr>
+                        <td>
+                            {{ $loop->iteration }}
+                        </td>
+                        <td>{{ $single_report->day }}</td>
+                        <td><span
+                                style="background: #ffe02f; padding: 5px 10px; border-radius: 4px; font-family: Courier New, monospace;">{{ $single_report->created_at->format('D') }}</span>
+                        </td>
+                        <td>{{ $single_report->session_start }}</td>
+                        <td>{{ $single_report->session_end }}</td>
+                        <td
+                            class="
+                                            {{ strtotime($single_report->duration) < strtotime($single_report->user->standard_time) ? 'less-time' : '' }}
                                         ">
-                        {{ $single_report->duration }}</td>
-                    <td style="color:rgb(32, 7, 29);"
-                        class="{{ $single_report->task_report ? (count(json_decode($single_report->task_report)) < (int) $single_report->user->standard_task ? 'less-task' : '') : '' }}">
-                        {{ $single_report->task_report ? count(json_decode($single_report->task_report)) : '' }}
-                    </td>
-                    <td>
-                        @if ($single_report->task_report)
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                                data-target="#viewReportModal{{ $loop->iteration }}">
-                                view
-                            </button>
+                            {{ $single_report->duration }}</td>
+                        <td style="color:rgb(32, 7, 29);"
+                            class="{{ $single_report->task_report ? (count(json_decode($single_report->task_report)) < (int) $single_report->user->standard_task ? 'less-task' : '') : '' }}">
+                            {{ $single_report->task_report ? count(json_decode($single_report->task_report)) : '' }}
+                        </td>
+                        <td>
+                            @if ($single_report->task_report)
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                                    data-target="#viewReportModal{{ $loop->iteration }}">
+                                    view
+                                </button>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="viewReportModal{{ $loop->iteration }}" tabindex="-1"
-                                role="dialog" aria-labelledby="viewReportModal{{ $loop->iteration }}CenterTitle"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header" style="text-align: center;">
-                                            <h5 class="modal-title" id="viewReportModal{{ $loop->iteration }}LongTitle">
-                                                Your Tasks
-                                            </h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body" style="white-space: normal; word-wrap: break-word;">
-                                            <div>
-                                                @if ($single_report->task_report)
-                                                    @foreach (json_decode($single_report->task_report) as $task)
-                                                        <div class="single-task">
-                                                            <span
-                                                                class="title">Title:</span><span>{{ $task->title }}</span>
-                                                            @if (isset($task->remarks))
-                                                                <span class="title">Remarks:</span><span class="remarks">
-                                                                    {{ $task->remarks }}</span>
-                                                            @endif
-                                                        </div>
-                                                    @endforeach
-                                                @endif
+                                <!-- Modal -->
+                                <div class="modal fade" id="viewReportModal{{ $loop->iteration }}" tabindex="-1"
+                                    role="dialog" aria-labelledby="viewReportModal{{ $loop->iteration }}CenterTitle"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="text-align: center;">
+                                                <h5 class="modal-title"
+                                                    id="viewReportModal{{ $loop->iteration }}LongTitle">
+                                                    Your Tasks
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close</button>
+                                            <div class="modal-body" style="white-space: normal; word-wrap: break-word;">
+                                                <div>
+                                                    @if ($single_report->task_report)
+                                                        @foreach (json_decode($single_report->task_report) as $task)
+                                                            <div class="single-task">
+                                                                <span
+                                                                    class="title">Title:</span><span>{{ $task->title }}</span>
+                                                                @if (isset($task->remarks))
+                                                                    <span class="title">Remarks:</span><span
+                                                                        class="remarks">
+                                                                        {{ $task->remarks }}</span>
+                                                                @endif
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endif
-                    </td>
-                </tr>
-            @endforeach
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
         </tbody>
     </table>
     @push('scripts')
@@ -224,7 +227,7 @@
                                         "{{ isset($single_report->user->standard_time) ? $single_report->user->standard_time : 'null' }}"
                                     if (standard_time) {
                                         const date2 = new Date(
-                                            `1970-01-01T{{ $single_report->user->standard_time }}`)
+                                            `1970-01-01T{{ isset($single_report) ? $single_report->user->standard_time:'' }}`)
                                         time_deficit = date1 < date2
                                     }
 
@@ -310,6 +313,7 @@
                             }
                         })
                         .catch(error => {
+
                             // Handle any errors that occur during the API call
                             console.error(error);
                         });

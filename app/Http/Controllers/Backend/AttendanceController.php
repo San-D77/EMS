@@ -78,6 +78,7 @@ class AttendanceController extends Controller
     public function view_reports()
     {
         $yesterday = Carbon::yesterday();
+
         $today = Carbon::today();
         $month = Calendar::whereDate('first_day', '<=', $today)->whereDate('last_day', '>=', $today)->first();
 
@@ -87,6 +88,10 @@ class AttendanceController extends Controller
 
         $publicHolidays = explode(',', $month->public_holidays); // Convert the CSV string to an array
         $publicHolidays = array_map('trim', $publicHolidays); // Trim spaces from each element
+
+        while(in_array($yesterday->toDateString(), $publicHolidays)){
+            $yesterday = $yesterday->subDay();
+        }
 
         $workingDays = $firstDay->diffInDaysFiltered(function (Carbon $date) use ($publicHolidays) {
             // Check if the current date is not a public holiday
@@ -156,6 +161,7 @@ class AttendanceController extends Controller
             if ($date == "this-month") {
                 $first_date = $cal->first_day;
                 $second_date = $cal->last_day;
+
             } else if ($date == "last-month") {
                 $second_date = (Carbon::parse($cal->first_day))->subDays(1);
                 $cal2 = Calendar::whereDate('first_day', '<=', $second_date)->whereDate('last_day', '>=', $second_date)->first();
