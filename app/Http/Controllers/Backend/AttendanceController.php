@@ -97,8 +97,6 @@ class AttendanceController extends Controller
             // Check if the current date is not a public holiday
             return !in_array($date->toDateString(), $publicHolidays);
         }, $lastDay);
-        $workingDays = $workingDays + 1;
-
 
         $full_time_reports =    Attendance::join('users', 'attendances.user_id', '=', 'users.id')
             ->where('users.employment_type', 'full-time')
@@ -121,8 +119,9 @@ class AttendanceController extends Controller
             })
             ->get()
             ->unique('user_id');
+
         $attendanceData = User::join('attendances', 'users.id', '=', 'attendances.user_id')
-            ->whereBetween('attendances.created_at', [$month->first_day, Carbon::today()])
+            ->whereBetween('attendances.created_at', [$month->first_day, Carbon::yesterday()])
             ->select('users.id', 'users.name', DB::raw('COUNT(attendances.id) as total_attendance_days'))
             ->groupBy('users.id', 'users.name')
             ->get();

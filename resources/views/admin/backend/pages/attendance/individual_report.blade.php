@@ -41,7 +41,7 @@
             }
         </style>
     @endpush
-    <span style="color:#1269da; font-size: 20px; font-weight: 600;">{{ $reports[0]->user->name }}</span>
+    <span style="color:#1269da; font-size: 20px; font-weight: 600;">{{ count($reports)>0 ? $reports[0]->user->name : '' }}</span>
     <div style="display:flex;flex-direction:row;justify-content:end; align-items:center;">
         <span class="mx-3 task-counter" style="font-size:18px; font-weight:500; color: green;">Total Tasks:
             {{ $tasks->total }}</span>
@@ -147,6 +147,7 @@
     </table>
     @push('scripts')
         <script>
+            console.log("hello");
             // Initialize the flatpickr calendars
             const fpFirstCalendar = flatpickr('#first-calendar', {
                 wrap: true,
@@ -191,7 +192,8 @@
 
                     // Make the API call with the selected dates
 
-                    fetch('{{ route('backend.attendance-individual_report_json', [$reports[0]->user->id]) }}', {
+
+                    fetch('{{ route('backend.attendance-individual_report_json', count($reports) > 0 ?[$reports[0]->user->id]:'') }}', {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -223,7 +225,7 @@
                                         "{{ isset($single_report->user->standard_time) ? $single_report->user->standard_time : 'null' }}"
                                     if (standard_time) {
                                         const date2 = new Date(
-                                            `1970-01-01T{{ $single_report->user->standard_time }}`)
+                                            `1970-01-01T{{ isset($single_report) ? $single_report->user->standard_time :'' }}`)
                                             time_deficit = date1  < date2
                                     }
 
@@ -312,7 +314,8 @@
                         .catch(error => {
                             // Handle any errors that occur during the API call
                             console.error(error);
-                        });
+                    });
+
                 }
             }
 

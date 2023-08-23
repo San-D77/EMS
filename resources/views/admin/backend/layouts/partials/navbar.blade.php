@@ -6,7 +6,7 @@
     <div class="navbar-content">
 
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <h4 style="color:rgb(9, 100, 9);">{{ toBikramSambatDate(\Carbon\Carbon::today()) }}</h4>
+            <h4 style="color:rgb(9, 100, 9);">{{ toBikramSambatDate(\Carbon\Carbon::today())}} <span style="color:#df800b">{{\Carbon\Carbon::now()->format('l')}}</span></h4>
         </div>
         <ul class="navbar-nav">
             <li class="nav-item">

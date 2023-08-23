@@ -33,7 +33,7 @@ class DashboardController extends Controller
                 ->merge($on_leave->pluck('user_id'))
                 ->unique();
 
-            $absent_today = User::whereNotIn('id', $excluded_ids)
+            $absent_today = User::where('status','1')->whereNotIn('id', $excluded_ids)
                 ->get();
 
 
