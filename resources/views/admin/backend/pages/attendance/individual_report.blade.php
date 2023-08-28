@@ -68,7 +68,9 @@
             <th>Date</th>
             <th>Day</th>
             <th>Session Start</th>
+            <th>Log_in IP</th>
             <th>Session End</th>
+            <th>Log_out IP</th>
             <th>Stay Time</th>
             <th>Tasks</th>
             <th>Action</th>
@@ -84,7 +86,9 @@
                             style="background: #ffe02f; padding: 5px 10px; border-radius: 4px; font-family: Courier New, monospace;">{{ $single_report->created_at->format('D') }}</span>
                     </td>
                     <td>{{ $single_report->session_start }}</td>
+                    <td>{{ $single_report->login_location }}</td>
                     <td>{{ $single_report->session_end }}</td>
+                    <td>{{ $single_report->logout_location }}</td>
                     <td
                         class="
                                             {{ strtotime($single_report->duration) < strtotime($single_report->user->standard_time) ? 'less-time' : '' }}
