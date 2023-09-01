@@ -79,7 +79,7 @@ class LeaveController extends Controller
 
             $pusher->trigger('notification-channel', 'new-leave-request', $data);
 
-            return redirect()->route('backend.dashboard');
+            return redirect()->route('backend.dashboard')->with('success','Your leave request was sent successfully');
         }
     }
 

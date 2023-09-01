@@ -141,6 +141,8 @@ Route::group(['prefix' => 'leave', 'as' => 'leave-','middleware' =>['roles']], f
 Route::group(['prefix' => 'notice', 'as' => 'notice-','middleware' =>['roles']], function(){
     Route::get('/create', [NoticeController::class, 'create'])->name('create');
     Route::post('/store', [NoticeController::class, 'store'])->name('store');
+    Route::get('/edit/{notice}', [NoticeController::class, 'edit'])->name('edit');
+    Route::post('/update/{notice}',[NoticeController::class,'update'])->name('update');
 
     Route::get('/view', [NoticeController::class, 'view'])->name('view');
     Route::get('/view/{notice}/{user}', [NoticeController::class, 'view_single'])->name('view_single');

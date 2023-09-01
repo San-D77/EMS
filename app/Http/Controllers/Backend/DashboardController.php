@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Backend\Attendance;
 use App\Models\Backend\Calendar;
 use App\Models\Backend\Leave;
+use App\Models\Backend\Notice;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class DashboardController extends Controller
     public function index()
     {
         $role = Auth::user()->role->slug;
+        $notice = Notice::orderBy('created_at','desc')->first();
         if ($role == 'admin' || $role == 'superadmin' || $role == 'supervisor') {
 
             $today = Carbon::today();
@@ -41,7 +43,8 @@ class DashboardController extends Controller
             return view('admin.backend.pages.dashboard.index', [
                 "present_today" => $present_today,
                 "on_leave" => $on_leave,
-                "absent_today" => $absent_today
+                "absent_today" => $absent_today,
+                "notice" => $notice
             ]);
         } else {
             $month = Calendar::whereDate('first_day', '<=', Carbon::today())->whereDate('last_day', '>=', Carbon::today())->first();
@@ -64,7 +67,9 @@ class DashboardController extends Controller
 
             return view('admin.backend.pages.dashboard.index', [
                 "present_this_month" => $present_this_month,
-                "task_this_month" => $task_this_month
+                "task_this_month" => $task_this_month,
+                "notice" => $notice
+
             ]);
         }
     }

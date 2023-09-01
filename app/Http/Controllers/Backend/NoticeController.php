@@ -33,6 +33,17 @@ class NoticeController extends Controller
         return redirect()->route('backend.notice-view');
     }
 
+    public function edit(Notice $notice){
+        return view('admin.backend.pages.notice.crud', [
+            "notice" => $notice
+        ]);
+    }
+
+    public function update(NoticeRequest $request, Notice $notice){
+        $notice->update($request->validated());
+        return redirect()->route('backend.notice-view');
+    }
+
     public function view()
     {
         return view('admin.backend.pages.notice.index', [

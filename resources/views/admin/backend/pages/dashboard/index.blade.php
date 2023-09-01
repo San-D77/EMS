@@ -30,6 +30,28 @@
             .single-leave .reason {
                 margin-left: 10px;
             }
+            .notice-box{
+                margin: 30px 50px;
+                padding: 20px 15px;
+                border-radius: 5px;
+                background: #fff;
+                box-shadow: 0px 4px 6px rgba(0,0,0,.4);
+
+            }
+            .notice-title{
+                text-align: center;
+                font-size: 25px;
+                font-weight: 700;
+                color:#2cbb01;
+                padding: 15px;
+                text-transform: capitalize;
+            }
+            .notice-description{
+                font-size: 18px;
+                font-weight: 500;
+                color:#04a5d6;
+                padding: 50px 80px;
+            }
         </style>
     @endpush
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
@@ -37,6 +59,14 @@
             <h4 class="mb-3 mb-md-0">Welcome to Dashboard</h4>
         </div>
     </div>
+    @if($notice && !in_array(Auth::user()->id, $notice->viewed_by))
+        <div class="notice-box">
+            <h2 class="notice-title">{{ $notice->title }}</h2>
+            <div class="notice-description">
+                {!! $notice->description !!}
+            </div>
+        </div>
+    @endif
     @if (Auth::user()->role->slug == 'admin' ||
             Auth::user()->role->slug == 'superadmin' ||
             Auth::user()->role->slug == 'supervisor')

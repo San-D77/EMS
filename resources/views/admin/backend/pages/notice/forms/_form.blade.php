@@ -1,4 +1,4 @@
-<form class="row g-3" method="POST" action="{{ route('backend.notice-store')}}">
+<form class="row g-3" method="POST" action="{{ isset($notice) ? route('backend.notice-update', ['notice' => $notice]) : route('backend.notice-store') }}">
     <div class="row">
         @include('error')
         <div class="col-xl-10 mx-auto">
@@ -11,12 +11,12 @@
                         <div class="col-12 mb-2 ">
                             <div class="form-group">
                                 <label for="title">Title</label>
-                                <input type="text" name="title" id="" class="form-control" />
+                                <input type="text" name="title" id="" class="form-control" value="{{ isset($notice) ? $notice->title : old('title') }}" />
                             </div>
 
                             <div class="form-group">
                                 <label for="Description">Message</label>
-                                <textarea name="description" rows="15" class="form-control editor"></textarea>
+                                <textarea name="description" rows="15" class="form-control editor">{!! isset($notice) ? $notice->description : old('description') !!}</textarea>
                             </div>
                         </div>
 
