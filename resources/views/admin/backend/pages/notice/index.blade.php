@@ -45,6 +45,15 @@
                         @if (Auth::user()->role->slug == 'admin')
                             <a href="{{ route('backend.notice-edit', [$notice->id])}}" class="btn btn-sm btn-warning">edit</a>
                         @endif
+                        @if (Auth::user()->role->slug == 'admin')
+                            <a href="{{ route('backend.notice-terminate_notice', [$notice->id])}}" class="btn btn-sm {{ $notice->terminate_notice == "1" ? 'btn-primary' : 'btn-danger' }}">
+                                @if ($notice->terminate_notice == 1 )
+                                    reshow
+                                @else
+                                    terminate
+                                @endif
+                            </a>
+                        @endif
                     </td>
                 </tr>
             @endforeach
