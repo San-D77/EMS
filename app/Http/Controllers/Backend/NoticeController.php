@@ -73,4 +73,12 @@ class NoticeController extends Controller
             'pending_notice_count' => $pending_notices
         ]);
     }
+
+    public function terminate_notice(Notice $notice){
+       $update_option = $notice->terminate_notice == '1'? '0' : '1';
+       $notice->update([
+            "terminate_notice" => $update_option
+       ]);
+       return back();
+    }
 }

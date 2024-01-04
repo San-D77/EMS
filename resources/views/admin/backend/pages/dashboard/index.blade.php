@@ -59,13 +59,15 @@
             <h4 class="mb-3 mb-md-0">Welcome to Dashboard</h4>
         </div>
     </div>
-    @if($notice && !in_array(Auth::user()->id, $notice->viewed_by))
-        <div class="notice-box">
-            <h2 class="notice-title">{{ $notice->title }}</h2>
-            <div class="notice-description">
-                {!! $notice->description !!}
+    @if($notice && $notice->terminate_notice == 0)
+        @if($notice && !in_array(Auth::user()->id, $notice->viewed_by))
+            <div class="notice-box">
+                <h2 class="notice-title">{{ $notice->title }}</h2>
+                <div class="notice-description">
+                    {!! $notice->description !!}
+                </div>
             </div>
-        </div>
+        @endif
     @endif
     @if (Auth::user()->role->slug == 'admin' ||
             Auth::user()->role->slug == 'superadmin' ||
