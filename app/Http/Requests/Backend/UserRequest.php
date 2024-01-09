@@ -26,6 +26,7 @@ class UserRequest extends FormRequest
             "email" => "required|string|email|max:255|unique:users,email," . $this->route("user")?->id,
             "password" => $this->password ?"required_without:id|min:6":'',
             "alias_name" => "required|string|max:255",
+            "phone_number" => "required|regex:/^\+?[0-9]{1,3}-?[0-9]{6,14}$/",
             "role_id" => "required|exists:roles,id",
             "gender" => "required",
             "designation" => "required|string|max:255",

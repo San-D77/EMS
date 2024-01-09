@@ -41,7 +41,8 @@
             }
         </style>
     @endpush
-    <span style="color:#1269da; font-size: 20px; font-weight: 600;">{{ count($reports)>0 ? $reports[0]->user->name : '' }}</span>
+    <span
+        style="color:#1269da; font-size: 20px; font-weight: 600;">{{ count($reports) > 0 ? $reports[0]->user->name : '' }}</span>
     <div style="display:flex;flex-direction:row;justify-content:end; align-items:center;">
         <span class="mx-3 task-counter" style="font-size:18px; font-weight:500; color: green;">Total Tasks:
             {{ $tasks->total }}</span>
@@ -151,8 +152,6 @@
     </table>
     @push('scripts')
         <script>
-            console.log("hello");
-            // Initialize the flatpickr calendars
             const fpFirstCalendar = flatpickr('#first-calendar', {
                 wrap: true,
                 dateFormat: "d-M-Y",
@@ -197,7 +196,7 @@
                     // Make the API call with the selected dates
 
 
-                    fetch('{{ route('backend.attendance-individual_report_json', count($reports) > 0 ?[$reports[0]->user->id]:'') }}', {
+                    fetch('{{ route('backend.attendance-individual_report_json', count($reports) > 0 ? [$reports[0]->user->id] : '') }}', {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -229,8 +228,9 @@
                                         "{{ isset($single_report->user->standard_time) ? $single_report->user->standard_time : 'null' }}"
                                     if (standard_time) {
                                         const date2 = new Date(
-                                            `1970-01-01T{{ isset($single_report) ? $single_report->user->standard_time :'' }}`)
-                                            time_deficit = date1  < date2
+                                            `1970-01-01T{{ isset($single_report) ? $single_report->user->standard_time : '' }}`
+                                            )
+                                        time_deficit = date1 < date2
                                     }
 
                                     const task_count = JSON.parse(single_report['task_report']).length
@@ -250,51 +250,53 @@
                                             </td>
                                             <td>${ single_report['day']? single_report['day'] :'' }</td>
                                             <td><span
-                            style="background: #ffe02f; padding: 5px 10px; border-radius: 4px; font-family: Courier New, monospace;">${ dateObj.toLocaleString('en-US', { weekday: 'short' }) }</span></td>
+                                                style="background: #ffe02f; padding: 5px 10px; border-radius: 4px; font-family: Courier New, monospace;">${ dateObj.toLocaleString('en-US', { weekday: 'short' }) }</span>
+                                            </td>
                                             <td>${ single_report['session_start']? single_report['session_start'] :'' }</td>
+                                            <td>${ single_report['login_location']? single_report['login_location'] :'' }</td>
                                             <td>${ single_report['session_end']? single_report['session_end'] :'' }</td>
+                                            <td>${ single_report['logout_location']? single_report['logout_location'] :'' }</td>
                                             <td class="${time_deficit? 'less-time' : ''}">${ single_report['duration']? single_report['duration'] :'' }</td>
                                             <td class="${task_deficit? 'less-task'  : ''}">${taskReportCount}</td>
                                             <td>`
-                                    if (single_report['task_report']) {
+                                            if (single_report['task_report']) {
 
+                                                htm += `<button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                                                                data-target="#viewReportModal${iteration}">
+                                                                view
+                                                            </button>
 
-                                        htm += `<button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                                                    data-target="#viewReportModal${iteration}">
-                                                    view
-                                                </button>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="viewReportModal${iteration}" tabindex="-1"
+                                                                role="dialog" aria-labelledby="viewReportModal${iteration}CenterTitle"
+                                                                aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header" style="text-align: center;">
+                                                                            <h5 class="modal-title" id="viewReportModal${iteration}LongTitle">
+                                                                                Your Tasks
+                                                                            </h5>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body" style="white-space: normal; word-wrap: break-word;">
+                                                                            <div>`
+                                                if (JSON.parse(single_report['task_report']).length > 0) {
+                                                    JSON.parse(single_report['task_report']).forEach(task => {
 
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="viewReportModal${iteration}" tabindex="-1"
-                                                    role="dialog" aria-labelledby="viewReportModal${iteration}CenterTitle"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header" style="text-align: center;">
-                                                                <h5 class="modal-title" id="viewReportModal${iteration}LongTitle">
-                                                                    Your Tasks
-                                                                </h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body" style="white-space: normal; word-wrap: break-word;">
-                                                                <div>`
-                                        if (JSON.parse(single_report['task_report']).length > 0) {
-                                            JSON.parse(single_report['task_report']).forEach(task => {
-
-                                                htm +=
-                                                    `<div class="single-task">
-                                                                                <span
-                                                                                    class="title">Title:</span><span>${task['title']}</span>`
-                                                if (task['remarks']) {
-                                                    htm += ` <span class="title">Remarks:</span><span class="remarks">
-                                                                                        ${task['remarks']} </span>`
+                                                        htm +=
+                                                            `<div class="single-task">
+                                                                                            <span
+                                                                                                class="title">Title:</span><span>${task['title']}</span>`
+                                                        if (task['remarks']) {
+                                                            htm += ` <span class="title">Remarks:</span><span class="remarks">
+                                                                                                    ${task['remarks']} </span>`
+                                                        }
+                                                        htm += `</div>`
+                                                    })
                                                 }
-                                                htm += `</div>`
-                                            })
-                                        }
-                                        htm += `</div>
+                                                htm += `</div>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary"
@@ -303,8 +305,8 @@
                                                         </div>
                                                     </div>
                                                 </div>`
-                                    }
-                                    htm += `</td>
+                                            }
+                                            htm += `</td>
                                         </tr>`
                                 });
                                 tbodyField.innerHTML = htm;
@@ -318,7 +320,7 @@
                         .catch(error => {
                             // Handle any errors that occur during the API call
                             console.error(error);
-                    });
+                        });
 
                 }
             }

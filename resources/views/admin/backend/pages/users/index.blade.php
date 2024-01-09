@@ -25,6 +25,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Mobile</th>
                             <th>Status</th>
                             <th>Designation</th>
                             <th>Employment Type</th>
@@ -36,7 +37,7 @@
                             <tr>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
-
+                                <td>{{ $user->phone_number }}</td>
                                 <td>
                                     <a href="{{ route('backend.user-update_status', $user->id) }}"
                                         class="btn btn-sm btn-{{ $user->status == 1 ? 'success' : 'danger' }}">

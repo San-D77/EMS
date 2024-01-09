@@ -294,27 +294,15 @@
                 <thead>
                     <th>S.N.</th>
                     <th>Employee Name</th>
-                    <th>Present</th>
-                    <th>Absent</th>
-                    <th>Leave Remaining</th>
                     <th>Action</th>
                 </thead>
                 <tbody class="report-data">
-                    @foreach ($attendance_data as $user)
+                    @foreach ($active_users as $user)
                         <tr style="background:#8cd1ec !important; font-size: 16px; font-weight:600;">
                             <td>
                                 {{ $loop->iteration }}
                             </td>
                             <td>{{ $user->name }}</td>
-                            <td>
-                                {{ $user->total_attendance_days }}
-                            </td>
-                            <td>
-                                {{ $working_days - $user->total_attendance_days }}
-                            </td>
-                            <td>
-                                {{ $working_days - $user->total_attendance_days < 2 ? 2 - ($working_days - $user->total_attendance_days) : 0 }}
-                            </td>
                             <td>
                                 <a href="{{ route('backend.attendance-individual_report', $user->id) }}"
                                     class="btn btn-sm btn-warning">View Report</a>

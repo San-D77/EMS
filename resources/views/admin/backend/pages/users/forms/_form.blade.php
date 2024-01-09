@@ -43,6 +43,19 @@
                         </div>
 
                         <div class="col-12 mb-2 ">
+                            <label class="form-label">Phone Number *</label>
+
+                            <input type="text"
+                                class="form-control {{ isset($errors) && $errors->has('phone_number') ? 'is-invalid' : '' }}"
+                                name="phone_number" value="{{ isset($user) ? $user->phone_number : old('phone_number') }}">
+                            @if (isset($errors) && $errors->has('phone_number'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('phone_number') }}
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="col-12 mb-2 ">
                             <label class="form-label">Password *</label>
                             <input type="text"
                                 class="form-control {{ isset($errors) && $errors->has('password') ? 'is-invalid' : '' }}"
