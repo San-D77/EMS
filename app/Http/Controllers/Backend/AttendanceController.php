@@ -126,8 +126,11 @@ class AttendanceController extends Controller
             ->groupBy('users.id', 'users.name')
             ->get();
 
-
-
+        if(Auth::user()->designation != 'administrator'){
+            $active_users = User::where('status','1')->where('designation','writer')->get();
+        }else{
+            $active_users = User::where('status','1')->get();
+        }
 
 
         return view('admin.backend.pages.attendance.view_reports', [
@@ -139,7 +142,9 @@ class AttendanceController extends Controller
 
             "attendance_data" => $attendanceData,
 
-            "working_days" => $workingDays
+            "working_days" => $workingDays,
+
+            "active_users" => $active_users
         ]);
     }
 
