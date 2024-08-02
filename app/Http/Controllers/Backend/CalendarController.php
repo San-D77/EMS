@@ -12,7 +12,7 @@ class CalendarController extends Controller
     public function index()
     {
         return view('admin.backend.pages.calendar.index', [
-            'calendar' => Calendar::all(),
+            'calendar' => Calendar::orderBy('created_at', 'desc')->get(),
         ]);
     }
     public function create()

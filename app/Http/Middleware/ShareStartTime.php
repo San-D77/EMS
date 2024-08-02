@@ -32,8 +32,13 @@ class ShareStartTime
 
         $user2 = Auth::user();
         $userId = optional($user2)->id;
-        $pending_notices = $userId ? Notice::whereRaw("Not JSON_CONTAINS(viewed_by, CAST($userId AS JSON))")->count()  : '';
-
+        $userCreatedAt = optional($user2)->created_at;
+        $pending_notices = '';
+        if ($userId && $userCreatedAt) {
+            $pending_notices = Notice::whereRaw("Not JSON_CONTAINS(viewed_by, CAST(? AS JSON))", [$userId])
+                ->where('created_at', '>=', $userCreatedAt)
+                ->count();
+        }
         view()->share([
             "start_time" => $user?->session_start,
             "submitted" => $submitted ? true : false,

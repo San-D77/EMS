@@ -79,23 +79,27 @@
                             @endif
                         </div>
 
-                        <div class="col-12 mb-2 ">
+                        <div class="col-12 mb-2">
                             <label class="form-label">Role *</label>
                             <select name="role_id" id="role-select" class="form-control">
                                 <option value="">Select Role</option>
                                 @foreach ($roles as $role)
-                                    <option {{ isset($user) && $user->role_id == $role->id ? 'selected' : '' }}
-                                        value="{{ $role->id }}">{{ $role->title }}</option>
+                                    <option
+                                        value="{{ $role->id }}"
+                                        {{ old('role_id', isset($user) ? $user->role_id : '') == $role->id ? 'selected' : '' }}>
+                                        {{ $role->title }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-12 mb-2 ">
+
+                        <div class="col-12 mb-2">
                             <label class="form-label">Gender *</label>
                             <select name="gender" id="" class="form-control">
-                                <option  value="">Select Gender</option>
-                                <option {{ isset($user) && $user->gender == 'male' ? 'selected' : '' }} value="male">Male</option>
-                                <option {{ isset($user) && $user->gender == 'female' ? 'selected' : '' }} value="female">Female</option>
-                                <option {{ isset($user) && $user->gender == 'others' ? 'selected' : '' }} value="others">Others</option>
+                                <option value="">Select Gender</option>
+                                <option {{ old('gender', isset($user) ? $user->gender : '') == 'male' ? 'selected' : '' }} value="male">Male</option>
+                                <option {{ old('gender', isset($user) ? $user->gender : '') == 'female' ? 'selected' : '' }} value="female">Female</option>
+                                <option {{ old('gender', isset($user) ? $user->gender : '') == 'others' ? 'selected' : '' }} value="others">Others</option>
                             </select>
                             @if (isset($errors) && $errors->has('gender'))
                                 <div class="invalid-feedback">
@@ -103,6 +107,7 @@
                                 </div>
                             @endif
                         </div>
+
 
                         <div class="col-12 mb-2 ">
 

@@ -7,6 +7,7 @@ use App\Http\Requests\Backend\NoticeRequest;
 use App\Models\Backend\Notice;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Pusher\Pusher;
 
 class NoticeController extends Controller
@@ -33,23 +34,32 @@ class NoticeController extends Controller
         return redirect()->route('backend.notice-view');
     }
 
-    public function edit(Notice $notice){
+    public function edit(Notice $notice)
+    {
         return view('admin.backend.pages.notice.crud', [
             "notice" => $notice
         ]);
     }
 
-    public function update(NoticeRequest $request, Notice $notice){
+    public function update(NoticeRequest $request, Notice $notice)
+    {
         $notice->update($request->validated());
         return redirect()->route('backend.notice-view');
     }
 
     public function view()
-    {
-        return view('admin.backend.pages.notice.index', [
-            "notices" => Notice::orderBy('created_at','desc')->get()
-        ]);
-    }
+{
+    $user = Auth::user();
+    $userCreatedAt = $user->created_at;
+
+    $notices = Notice::where('created_at', '>=', $userCreatedAt)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('admin.backend.pages.notice.index', [
+        "notices" => $notices
+    ]);
+}
 
     public function view_single(Notice $notice, User $user)
     {
@@ -65,7 +75,13 @@ class NoticeController extends Controller
         }
 
 
-        $pending_notices = Notice::whereRaw("Not JSON_CONTAINS(viewed_by, CAST($user->id AS JSON))")->count();
+
+        if ($user->id && $user->created_at) {
+            $pending_notices = Notice::whereRaw("Not JSON_CONTAINS(viewed_by, CAST(? AS JSON))", [$user->id])
+                ->where('created_at', '>=', $user->created_at);
+        }
+
+
 
 
         return view('admin.backend.pages.notice.view_single', [
@@ -74,11 +90,12 @@ class NoticeController extends Controller
         ]);
     }
 
-    public function terminate_notice(Notice $notice){
-       $update_option = $notice->terminate_notice == '1'? '0' : '1';
-       $notice->update([
+    public function terminate_notice(Notice $notice)
+    {
+        $update_option = $notice->terminate_notice == '1' ? '0' : '1';
+        $notice->update([
             "terminate_notice" => $update_option
-       ]);
-       return back();
+        ]);
+        return back();
     }
 }

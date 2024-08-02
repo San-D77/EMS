@@ -17,7 +17,13 @@ class DashboardController extends Controller
     public function index()
     {
         $role = Auth::user()->role->slug;
-        $notice = Notice::orderBy('created_at','desc')->first();
+        $user = Auth::user();
+        $userCreatedAt = optional($user)->created_at;
+
+        $notice = Notice::where('terminate_notice', null)
+            ->where('created_at', '>=', $userCreatedAt)
+            ->orderBy('created_at', 'desc')
+            ->first();
         if ($role == 'admin' || $role == 'superadmin' || $role == 'supervisor') {
 
             $today = Carbon::today();
@@ -35,7 +41,7 @@ class DashboardController extends Controller
                 ->merge($on_leave->pluck('user_id'))
                 ->unique();
 
-            $absent_today = User::where('status','1')->whereNotIn('id', $excluded_ids)
+            $absent_today = User::where('status', '1')->whereNotIn('id', $excluded_ids)
                 ->get();
 
 
@@ -53,15 +59,15 @@ class DashboardController extends Controller
             $present_this_month = $query->count();
 
             $task_this_month = $query->get()
-            ->reduce(function ($totalTasks, $attendance) {
-                $tasks = json_decode($attendance->task_report, true);
+                ->reduce(function ($totalTasks, $attendance) {
+                    $tasks = json_decode($attendance->task_report, true);
 
-                if (is_array($tasks)) {
-                    $totalTasks += count($tasks);
-                }
+                    if (is_array($tasks)) {
+                        $totalTasks += count($tasks);
+                    }
 
-                return $totalTasks;
-            }, 0);
+                    return $totalTasks;
+                }, 0);
 
 
 

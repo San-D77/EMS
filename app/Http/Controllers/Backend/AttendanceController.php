@@ -200,8 +200,8 @@ class AttendanceController extends Controller
         $today = now()->toDateString();
         $attendances = Attendance::whereDate('created_at', $today)->with('user')->orderBy('created_at', 'desc')->get()->unique('user_id');
 
-        $usersWithoutAttendance = User::whereNotIn('id', $attendances->pluck('user_id'))->get();
-
+        $usersWithoutAttendance = User::where('status','1')->whereNotIn('id', $attendances->pluck('user_id'))->get();
+        
         return view('admin.backend.pages.attendance.today', [
             'presents' => $attendances,
             'absents' => $usersWithoutAttendance
