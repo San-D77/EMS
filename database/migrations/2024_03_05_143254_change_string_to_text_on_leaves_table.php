@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('leaves', function (Blueprint $table) {
             $table->text('description')->change();
-            $table->text('message')->change();
+            $table->text('message')->change()->nullable();
         });
     }
 

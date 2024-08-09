@@ -22,7 +22,7 @@
             <th>Leave Type</th>
             <th>Date</th>
             <th>Date in BS</th>
-            <th>Description</th>
+
             <th>Status</th>
             <th>Message</th>
         </thead>
@@ -36,7 +36,7 @@
                     <td>{{ ucwords(str_replace('-',' ',$leave->leave_type)) }}</td>
                     <td>{{ $leave->date }}</td>
                     <td>{{ $leave->date? toBikramSambatDate($leave->date): toBikramSambatDate($leave->first_day).' -- '. toBikramSambatDate($leave->last_day) }}</td>
-                    <td>{{ $leave->description }}</td>
+                    
                     <td class="{{ ($leave->status == 'pending')? 'pending' : (($leave->status == 'approved')? 'approved' : 'rejected') }}">{{ ucfirst($leave->status) }}</td>
                     <td>{{ $leave->message }}</td>
                 </tr>

@@ -55,7 +55,7 @@
                                 @endif
                             </div>
                             <label for="Description">Description</label>
-                            <textarea name="description" id="" rows="5" class="form-control"></textarea>
+                            <textarea name="description" class="form-control editor"></textarea>
                         </div>
 
 
@@ -71,7 +71,49 @@
     </div>
 </form>
 @push('scripts')
+<script src="https://cdn.tiny.cloud/1/xbw872gf05l003xyag73l4fuxlcse5ggqre8dxhqd72fmil6/tinymce/6/tinymce.min.js"
+referrerpolicy="origin"></script>
     <script>
+        tinymce.init({
+            selector: 'textarea.editor',
+
+            plugins: 'readmore preview advlist link importcss searchreplace autosave save directionality code visualblocks visualchars fullscreen image media template codesample table charmap pagebreak nonbreaking anchor insertdatetime lists wordcount help charmap emoticons ',
+
+            imagetools_cors_hosts: ['picsum.photos'],
+            image_caption: true,
+
+
+            relative_urls: false,
+            convert_urls: false,
+            menubar: '',
+
+            toolbar: 'blocks code bold italic underline link blockquote alignleft aligncenter alignjustify numlist bullist charmap table ',
+
+            link_context_toolbar: true,
+
+            toolbar_sticky: true,
+
+
+            // file_picker_types: 'image',
+            /* and here's our custom image picker*/
+
+
+            // success color
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px; width: 95%; } .readmore{ border: solid 1 px #ccc;background - color: #eee;font - size: 17 px;font - weight: bold;border-radius: 7 px;width: 35 % ;color: black;padding: 5 px 10 px;margin: 10 px 0; }',
+
+
+        importcss_append: true,
+
+        template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
+        template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
+        height: 700,
+        image_caption: true,
+        quickbars_selection_toolbar: '',
+        noneditable_noneditable_class: "mceNonEditable",
+        toolbar_mode: 'sliding',
+        contextmenu: "table",
+
+        });
         const single = document.querySelector('.one-day');
         const multi = document.querySelector('.multi-day');
 
@@ -113,6 +155,5 @@
             });
 
         }
-
     </script>
 @endpush

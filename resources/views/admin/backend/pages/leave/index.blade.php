@@ -48,7 +48,7 @@
                                         <div style="font-size: 18px; text-align: center; font-weight:600;">Description
                                         </div>
                                         <div>
-                                            <p style="position:relative;">{{ $single_leave->description }}</p>
+                                            <p style="position:relative;">{!! $single_leave->description !!}</p>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
