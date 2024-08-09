@@ -215,6 +215,7 @@
 
                             if (d.length > 0) {
                                 let iteration = 0;
+                                console.log(d);
                                 htm = '';
                                 d.forEach(single_report => {
                                     var dateObj = new Date(single_report['created_at']);
@@ -233,7 +234,7 @@
                                         time_deficit = date1 < date2
                                     }
 
-                                    const task_count = JSON.parse(single_report['task_report']).length
+                                    const task_count = single_report['task_report'] ? JSON.parse(single_report['task_report']).length:0;
 
                                     const standard_task =
                                         "{{ isset($single_report->user->standard_task) ? $single_report->user->standard_task : 'null' }}"

@@ -78,7 +78,8 @@ class NoticeController extends Controller
 
         if ($user->id && $user->created_at) {
             $pending_notices = Notice::whereRaw("Not JSON_CONTAINS(viewed_by, CAST(? AS JSON))", [$user->id])
-                ->where('created_at', '>=', $user->created_at);
+                ->where('created_at', '>=', $user->created_at)
+                ->count();
         }
 
 

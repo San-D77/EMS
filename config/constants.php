@@ -139,9 +139,9 @@ return [
             'roles' => [
                 'superadmin',
                 'admin',
-                'supervisor',
-                'maintainer',
-                'user'
+                // 'supervisor',
+                // 'maintainer',
+                // 'user'
             ],
             'children' => [
                 [
@@ -170,10 +170,7 @@ return [
                     'parameter' => false,
                     'roles' => [
                         'superadmin',
-                        'admin',
-                        'supervisor',
-                        'maintainer',
-                        'user'
+                        'admin'
                     ]
                 ]
             ]

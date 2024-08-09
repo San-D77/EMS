@@ -42,10 +42,10 @@
         </style>
     @endpush
 
-    <div style="display:flex;justify-content:center; font-size:19px; font-weight:600; color: #009200;">Task reports
+    {{-- <div style="display:flex;justify-content:center; font-size:19px; font-weight:600; color: #009200;">Task reports
         of
         {{ count($full_time_reports) > 0 ? $full_time_reports[0]->day : (count($unsubmitted) > 0 ? $unsubmitted[0]->day : '') }}
-    </div>
+    </div> --}}
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
